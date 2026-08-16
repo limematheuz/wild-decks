@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { GAME_MODES, RANKS, SUITS, createDeck, drawRandomCard } from "../src/decks.js";
+import { GAME_MODES, RANKS, SUITS, createDeck, drawRandomCard, getModeCopy } from "../src/decks.js";
 
 test("there are two playable game modes", () => {
   assert.deepEqual(Object.keys(GAME_MODES), ["clasico", "wild"]);
@@ -21,8 +21,15 @@ test("each mode creates two complete decks without jokers", () => {
 });
 
 test("classic and wild modes keep their separate card actions", () => {
-  assert.match(GAME_MODES.clasico.actions.Q[1], /hombres/);
-  assert.match(GAME_MODES.wild.actions.K[1], /secreto/);
+  assert.match(getModeCopy("clasico", "en").actions.Q[1], /women/i);
+  assert.match(getModeCopy("wild", "en").actions.K[1], /secret/i);
+});
+
+test("the localized decks keep the same 104-card structure", () => {
+  for (const locale of ["en", "es", "pt"]) {
+    assert.equal(createDeck("clasico", locale).length, 104);
+    assert.equal(createDeck("wild", locale).length, 104);
+  }
 });
 
 test("drawing removes exactly one card", () => {

@@ -1,19 +1,31 @@
-const characters = {
-  A: ["A.png", "El Capo del Vaso"],
-  "2": ["2.png", "Lola Lata"],
-  "3": ["3.png", "Pablito Pop"],
-  "4": ["4.png", "Tia Stop"],
-  "5": ["5.png", "Memo Moco"],
-  "6": ["6.png", "Marinero Miki"],
-  "7": ["7.png", "Pili Pi"],
-  "8": ["8.png", "Regla Rolo"],
-  "9": ["9.png", "Nando Nueve"],
-  "10": ["10.png", "Dani Disco"],
-  J: ["J.png", "Jota Joy"],
-  Q: ["Q.png", "Reina Rosi"],
-  K: ["K.png", "Rey Rufi"]
+const asset = (path, alt) => ({ path, alt });
+
+export const LOGOS = {
+  en: asset("/assets/logos/wild-decks.png", "Wild Decks"),
+  es: asset("/assets/logos/barajas-salvajes.png", "Barajas Salvajes"),
+  pt: asset("/assets/logos/baralhos-selvagens.png", "Baralhos Selvagens")
 };
 
-export const CHARACTER_ART = Object.fromEntries(
-  Object.entries(characters).map(([rank, [file, label]]) => [rank, { src: `/assets/cards/${file}`, label }])
-);
+export const NUMBERED_CARD_BACKDROPS = {
+  en: "/assets/cards/numbered-base-en.png",
+  es: "/assets/cards/numbered-base-es.png",
+  pt: "/assets/cards/numbered-base-pt.png"
+};
+
+export const CHARACTER_ART = {
+  A: asset("/assets/cards/ace-herald.png", "The royal herald"),
+  J: asset("/assets/cards/prince.png", "The prince"),
+  Q: asset("/assets/cards/queen.png", "The queen"),
+  K: asset("/assets/cards/king.png", "The king"),
+  joker: asset("/assets/cards/joker.png", "The joker")
+};
+
+export const NUMBERED_RANKS = new Set(["2", "3", "4", "5", "6", "7", "8", "9", "10"]);
+
+export function getCardArt(rank, locale) {
+  if (NUMBERED_RANKS.has(rank)) {
+    return { path: NUMBERED_CARD_BACKDROPS[locale] ?? NUMBERED_CARD_BACKDROPS.en, alt: "Wild Decks card art", numbered: true };
+  }
+
+  return { ...(CHARACTER_ART[rank] ?? CHARACTER_ART.A), numbered: false };
+}
