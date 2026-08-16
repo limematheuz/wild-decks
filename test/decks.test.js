@@ -25,6 +25,17 @@ test("classic and wild modes keep their separate card actions", () => {
   assert.match(getModeCopy("wild", "en").actions.K[1], /secret/i);
 });
 
+test("every rank has a visible action in both modes", () => {
+  for (const locale of ["en", "es", "pt"]) {
+    for (const modeId of Object.keys(GAME_MODES)) {
+      const actions = getModeCopy(modeId, locale).actions;
+      for (const rank of RANKS) {
+        assert.equal(actions[rank].length, 2, `${locale}/${modeId}/${rank} needs title and action`);
+      }
+    }
+  }
+});
+
 test("the localized decks keep the same 104-card structure", () => {
   for (const locale of ["en", "es", "pt"]) {
     assert.equal(createDeck("clasico", locale).length, 104);

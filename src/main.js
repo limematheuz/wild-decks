@@ -1,6 +1,6 @@
 import "./styles.css";
-import { CHARACTER_ART, LOGOS, getCardArt } from "./assets.js";
-import { GAME_MODES, createDeck, drawRandomCard, getCopy, getModeCopy } from "./decks.js";
+import { CHARACTER_ART, LOGOS, getCardArt, getCardBack } from "./assets.js";
+import { GAME_MODES, RANKS, createDeck, drawRandomCard, getCopy, getModeCopy } from "./decks.js";
 
 const app = document.querySelector("#app");
 
@@ -29,7 +29,7 @@ app.innerHTML = `
             <button class="locale-button" data-action="locale" data-locale="es" type="button" aria-label="Espanol">ES</button>
             <button class="locale-button" data-action="locale" data-locale="pt" type="button" aria-label="Portugues">PT</button>
           </nav>
-          <button class="icon-button" data-action="open-rules-home" type="button" aria-label="Rules">?</button>
+          <button class="icon-button" data-action="open-info" type="button" aria-label="Information">i</button>
         </header>
         <div class="home-hero">${logoImage("en", "brand-logo")}</div>
         <div class="home-message"><p class="eyebrow">Two decks. No mercy.</p><p data-ui="age-note">Only for the legal drinking age in your country.</p></div>
@@ -93,8 +93,22 @@ app.innerHTML = `
       </div>
     </div>
 
+    <div class="modal" data-ui="info-modal" role="dialog" aria-modal="true" aria-labelledby="info-title">
+      <div class="modal-card modal-card--compact">
+        <h2 class="heading" id="info-title">18+</h2>
+        <p data-ui="info-content"></p>
+        <button class="solid-button solid-button--pink" data-action="close-info" type="button" data-copy="close">Close</button>
+      </div>
+    </div>
+
+    <button class="drawer-scrim" data-ui="drawer-scrim" data-action="close-menu" type="button" aria-label="Close menu"></button>
     <aside class="menu-drawer" data-ui="drawer" aria-hidden="true">
       <header><h2 class="heading" data-copy="menu">Menu</h2><button class="icon-button" data-action="close-menu" type="button" aria-label="Close">&times;</button></header>
+      <nav class="locale-switcher locale-switcher--menu" aria-label="Language">
+        <button class="locale-button" data-action="locale" data-locale="en" type="button" aria-label="English">EN</button>
+        <button class="locale-button" data-action="locale" data-locale="es" type="button" aria-label="Espanol">ES</button>
+        <button class="locale-button" data-action="locale" data-locale="pt" type="button" aria-label="Portugues">PT</button>
+      </nav>
       <div class="drawer-actions">
         <button class="solid-button solid-button--blue" data-action="rules-current" type="button" data-copy="rules">Rules</button>
         <button class="solid-button solid-button--cream" data-action="reset" type="button" data-copy="reset">Reset deck</button>
@@ -105,7 +119,7 @@ app.innerHTML = `
     <div class="modal" data-ui="rules-modal" role="dialog" aria-modal="true" aria-labelledby="rules-title">
       <div class="modal-card">
         <h2 class="heading" id="rules-title" data-ui="rules-title">Rules</h2>
-        <ul class="rules-list" data-ui="rules-list"></ul>
+        <div class="rules-list" data-ui="rules-list"></div>
         <button class="solid-button solid-button--pink" data-action="close-rules" type="button" data-copy="close">Close</button>
       </div>
     </div>
@@ -140,14 +154,19 @@ function copy() { return getCopy(locale); }
 function modeCopy(modeId = currentModeId) { return getModeCopy(modeId, locale); }
 function showScreen(name) { screens.forEach((screen) => screen.classList.toggle("is-active", screen.dataset.screen === name)); }
 function setModal(node, open) { node.classList.toggle("is-open", open); }
-function setDrawer(open) { ui.drawer.classList.toggle("is-open", open); ui.drawer.setAttribute("aria-hidden", String(!open)); }
+function setDrawer(open) {
+  ui.drawer.classList.toggle("is-open", open);
+  ui.drawer.setAttribute("aria-hidden", String(!open));
+  ui.drawerScrim.classList.toggle("is-open", open);
+}
 
 function renderModeGrid() {
   ui.modeGrid.innerHTML = Object.values(GAME_MODES).map((mode) => {
     const content = modeCopy(mode.id);
     return `<article class="mode-tile mode-tile--${mode.color}">
-      <div class="mode-copy"><p class="mode-tag">${mode.id === "clasico" ? "104 / NO JOKERS" : "TRUTHS / DARES"}</p><h2 class="heading">${content.label}</h2><p>${content.description}</p><button class="solid-button solid-button--${mode.id === "clasico" ? "pink" : "yellow"}" data-action="play" data-mode="${mode.id}" type="button">${copy().play}</button></div>
+      <div class="mode-copy"><p class="mode-tag">${mode.id === "clasico" ? "104 / NO JOKERS" : "TRUTHS / DARES"}</p><h2 class="heading">${content.label}</h2><p>${content.description}</p></div>
       <div class="mode-art-placeholder" aria-hidden="true"><span>${mode.id === "clasico" ? "104" : "WILD"}</span></div>
+      <button class="solid-button solid-button--${mode.id === "clasico" ? "pink" : "yellow"}" data-action="play" data-mode="${mode.id}" type="button">${copy().play}</button>
     </article>`;
   }).join("");
 }
@@ -167,11 +186,13 @@ function renderCopy() {
   document.querySelectorAll(".brand-logo").forEach((image) => { image.src = LOGOS[locale].path; image.alt = LOGOS[locale].alt; });
   ui.modeName.textContent = modeCopy().label;
   ui.ageNote.textContent = strings.ageNotice;
+  ui.infoContent.textContent = strings.ageCopy;
   renderModeGrid();
 }
 
 function setCardVisual(card) {
   const art = getCardArt(card.rank, locale);
+  ui.card.classList.remove("is-card-back");
   ui.card.classList.toggle("is-numbered", art.numbered);
   ui.card.dataset.suitColor = card.suitColor;
   ui.cardArt.src = art.path;
@@ -182,13 +203,21 @@ function setCardVisual(card) {
   ui.cornerSuitBottom.textContent = card.suit;
 }
 
+function showCardBack() {
+  const art = getCardBack(locale);
+  ui.card.classList.remove("is-numbered");
+  ui.card.classList.add("is-card-back");
+  ui.cardArt.src = art.path;
+  ui.cardArt.alt = art.alt;
+}
+
 function resetDeck() {
   deck = createDeck(currentModeId, locale);
   ui.remaining.textContent = deck.length;
-  ui.cardCode.textContent = "A♠";
+  ui.cardCode.textContent = modeCopy().label;
   ui.ruleTitle.textContent = copy().ready;
   ui.ruleText.textContent = copy().initialRule;
-  setCardVisual({ rank: "A", suit: "♠", suitColor: "black" });
+  showCardBack();
 }
 
 function setMode(modeId) {
@@ -211,10 +240,16 @@ function drawCard() {
   ui.card.animate([{ transform: "rotate(-2deg) scale(.94)" }, { transform: "rotate(1deg) scale(1.025)" }, { transform: "rotate(0) scale(1)" }], { duration: 360, easing: "cubic-bezier(.2,.9,.2,1)" });
 }
 
-function openRules(modeId = currentModeId) {
-  const content = modeCopy(modeId);
-  ui.rulesTitle.textContent = content.rulesTitle;
-  ui.rulesList.innerHTML = content.rules.map((rule) => `<li>${rule}</li>`).join("");
+function openRules() {
+  ui.rulesTitle.textContent = copy().rules;
+  ui.rulesList.innerHTML = ["clasico", "wild"].map((modeId) => {
+    const content = modeCopy(modeId);
+    const cardRules = RANKS.map((rank) => {
+      const [title, action] = content.actions[rank];
+      return `<li><strong>${rank} - ${title}</strong><span>${action}</span></li>`;
+    }).join("");
+    return `<section class="rules-group"><h3>${content.rulesTitle}</h3><p>${content.rules.join(" ")}</p><ul>${cardRules}</ul></section>`;
+  }).join("");
   setModal(ui.rulesModal, true);
 }
 
@@ -244,8 +279,18 @@ document.addEventListener("click", (event) => {
   if (action === "reset") { resetDeck(); setDrawer(false); }
   if (action === "quit") { setDrawer(false); showScreen("decks"); }
   if (action === "rules-current") { setDrawer(false); openRules(); }
-  if (action === "open-rules-home") openRules("clasico");
+  if (action === "open-rules-home") openRules();
+  if (action === "open-info") setModal(ui.infoModal, true);
+  if (action === "close-info") setModal(ui.infoModal, false);
   if (action === "close-rules") setModal(ui.rulesModal, false);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    setDrawer(false);
+    setModal(ui.rulesModal, false);
+    setModal(ui.infoModal, false);
+  }
 });
 
 renderCopy();

@@ -22,6 +22,13 @@ export const CHARACTER_ART = {
 
 export const NUMBERED_RANKS = new Set(["2", "3", "4", "5", "6", "7", "8", "9", "10"]);
 
+export function getCardBack(locale) {
+  return {
+    path: NUMBERED_CARD_BACKDROPS[locale] ?? NUMBERED_CARD_BACKDROPS.en,
+    alt: "Wild Decks card back"
+  };
+}
+
 export function getCardArt(rank, locale) {
   if (NUMBERED_RANKS.has(rank)) {
     return { path: NUMBERED_CARD_BACKDROPS[locale] ?? NUMBERED_CARD_BACKDROPS.en, alt: "Wild Decks card art", numbered: true };
