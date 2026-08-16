@@ -7,13 +7,14 @@ export const SUITS = [
 ];
 
 export const GAME_MODES = {
-  salvajes: {
-    id: "salvajes",
-    label: "Barajas Salvajes",
-    shortLabel: "SALVAJES",
+  clasico: {
+    id: "clasico",
+    label: "Barajas Clasicas",
+    shortLabel: "CLASICAS",
     color: "blue",
-    description: "La clasica. Caos, bebida y decisiones cuestionables.",
-    rulesTitle: "Reglas - Barajas Salvajes",
+    heroRank: "Q",
+    description: "La suave: risas, bebida y caos moderado.",
+    rulesTitle: "Reglas - Barajas Clasicas",
     rules: [
       "104 cartas, sin coringas. Roba una carta y cumple la accion.",
       "Si una carta crea una regla, se mantiene hasta que otra carta la sustituya.",
@@ -36,40 +37,12 @@ export const GAME_MODES = {
       K: ["Rey del caos", "Todos obedecen una orden absurda del rey durante una ronda."]
     }
   },
-  sueca: {
-    id: "sueca",
-    label: "Sueca Bebada",
-    shortLabel: "SUECA",
-    color: "pink",
-    description: "A versao de bebida da sueca, com 2 baralhos completos.",
-    rulesTitle: "Regras - Sueca Bebada",
-    rules: [
-      "Jogada com 2 baralhos completos, sem coringas: este app simula 104 cartas.",
-      "Sem numero maximo de jogadores, mas o ideal e ate 8.",
-      "Regra de ouro: ninguem pode sair do jogo em nenhum momento, nem pra ir ao banheiro.",
-      "Cada carta mostra automaticamente a acao embaixo do naipe."
-    ],
-    actions: {
-      A: ["As", "Escolhe 1 pessoa pra beber."],
-      "2": ["Dois", "Escolhe 2 pessoas pra beber."],
-      "3": ["Tres", "Escolhe 3 pessoas pra beber."],
-      "4": ["Stop", "Quem tirou escolhe uma categoria e uma letra, dando o primeiro exemplo. Os outros seguem em roda; quem travar ou repetir, bebe."],
-      "5": ["Memoria", "Quem tirou diz uma palavra. Cada jogador repete tudo o que ja foi dito e soma uma palavra nova. Quem errar a sequencia, bebe."],
-      "6": ["Continencia", "Guarde a carta. Quando quiser, faca continencia escondido: o ultimo a perceber e imitar, bebe."],
-      "7": ["Pi", "Conte em voz alta a partir de 1, trocando todo multiplo de 3 pela palavra Pi. Quem errar bebe."],
-      "8": ["Regra geral", "Crie uma regra que vale pra todos ate ser substituida por outra. Quem descumprir, bebe."],
-      "9": ["Continencia", "Igual a carta 6: guarde e use quando quiser."],
-      "10": ["Cafofo", "Alguem escolhe um tema. Cada um da um exemplo sem repetir; quem travar, bebe."],
-      J: ["Valete", "O jogador a esquerda de quem tirou bebe uma dose."],
-      Q: ["Dama", "Todas as mulheres da mesa bebem uma dose."],
-      K: ["Rei", "Todos os homens da mesa bebem uma dose."]
-    }
-  },
   wild: {
     id: "wild",
     label: "Wild Decks",
     shortLabel: "WILD",
     color: "yellow",
+    heroRank: "J",
     description: "La baraja que nadie deberia haber dejado suelta.",
     rulesTitle: "Reglas - Wild Decks",
     rules: [
@@ -96,8 +69,8 @@ export const GAME_MODES = {
   }
 };
 
-export function createDeck(modeId = "salvajes") {
-  const mode = GAME_MODES[modeId] ?? GAME_MODES.salvajes;
+export function createDeck(modeId = "clasico") {
+  const mode = GAME_MODES[modeId] ?? GAME_MODES.clasico;
   const cards = [];
 
   for (let copy = 1; copy <= 2; copy += 1) {

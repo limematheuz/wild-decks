@@ -4,11 +4,10 @@ Juego de cartas para adultos, construido con Vite y JavaScript sin dependencias 
 
 ## Modos incluidos
 
-- **Barajas Salvajes:** bebida, caos y decisiones cuestionables.
-- **Sueca Bebada:** reglas portuguesas con dos barajas completas (104 cartas, sin coringas).
+- **Barajas Clasicas:** bebida, risas y caos moderado.
 - **Wild Decks:** retos sociales, preguntas incomodas y consentimiento como regla principal.
 
-Cada modo genera dos barajas completas, con 104 cartas. Las cartas usan los personajes y el lenguaje visual de los ejemplos incluidos en el proyecto.
+Cada modo genera dos barajas completas, con 104 cartas. El juego incluye 13 personajes originales en PNG, uno por rango. La ropa y el lenguaje visual responden a caricatura web de finales de los 90 y principios de los 2000, sin reutilizar las capturas de referencia.
 
 ## Desarrollo
 
@@ -27,6 +26,7 @@ La aplicacion se abre normalmente en `http://localhost:5173`.
 npm test
 npm run build
 npm run preview
+npm run assets
 ```
 
 ## Despliegue en Vercel
@@ -41,9 +41,10 @@ No necesita variables de entorno ni configuracion adicional.
 
 ```text
 src/decks.js    reglas, mazos y extraccion aleatoria
-src/assets.js   referencias visuales y personajes por carta
+src/assets.js   personajes PNG por carta
 src/main.js     interfaz y estado de juego
 src/styles.css  interfaz responsive mobile-first
+scripts/        generador reproducible de los PNG de personajes
 test/           pruebas de logica de baraja
-public/assets/  recursos visuales de ejemplo reutilizados por la app
+public/assets/  PNG finales usados por la app
 ```

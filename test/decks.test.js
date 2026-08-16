@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { GAME_MODES, RANKS, SUITS, createDeck, drawRandomCard } from "../src/decks.js";
 
-test("there are three playable game modes", () => {
-  assert.deepEqual(Object.keys(GAME_MODES), ["salvajes", "sueca", "wild"]);
+test("there are two playable game modes", () => {
+  assert.deepEqual(Object.keys(GAME_MODES), ["clasico", "wild"]);
 });
 
 test("each mode creates two complete decks without jokers", () => {
@@ -20,11 +20,9 @@ test("each mode creates two complete decks without jokers", () => {
   }
 });
 
-test("sueca bebada keeps the requested face-card rules", () => {
-  const sueca = GAME_MODES.sueca.actions;
-  assert.match(sueca.J[1], /esquerda/);
-  assert.match(sueca.Q[1], /mulheres/);
-  assert.match(sueca.K[1], /homens/);
+test("classic and wild modes keep their separate card actions", () => {
+  assert.match(GAME_MODES.clasico.actions.Q[1], /hombres/);
+  assert.match(GAME_MODES.wild.actions.K[1], /secreto/);
 });
 
 test("drawing removes exactly one card", () => {

@@ -1,0 +1,145 @@
+[
+  {
+    "rank": "A",
+    "name": "El Capo del Vaso",
+    "skin": "#f28d50",
+    "hair": "#1f1715",
+    "shirt": "#ffd21f",
+    "pants": "#00aeea",
+    "accent": "#ff3d94",
+    "item": "cup",
+    "vibe": "party host"
+  },
+  {
+    "rank": "2",
+    "name": "Lola Lata",
+    "skin": "#f7b28c",
+    "hair": "#ff5f2a",
+    "shirt": "#ff3d94",
+    "pants": "#ffd21f",
+    "accent": "#00aeea",
+    "item": "phone",
+    "vibe": "beach dancer"
+  },
+  {
+    "rank": "3",
+    "name": "Pablito Pop",
+    "skin": "#c67b52",
+    "hair": "#312127",
+    "shirt": "#00aeea",
+    "pants": "#ff3d94",
+    "accent": "#ffd21f",
+    "item": "boombox",
+    "vibe": "club kid"
+  },
+  {
+    "rank": "4",
+    "name": "Tia Stop",
+    "skin": "#eb9d76",
+    "hair": "#7b2e4c",
+    "shirt": "#ffd21f",
+    "pants": "#00aeea",
+    "accent": "#ff3d94",
+    "item": "paddle",
+    "vibe": "door bouncer"
+  },
+  {
+    "rank": "5",
+    "name": "Memo Moco",
+    "skin": "#b96e4a",
+    "hair": "#b726b3",
+    "shirt": "#ff3d94",
+    "pants": "#00aeea",
+    "accent": "#ffd21f",
+    "item": "notes",
+    "vibe": "forgetful aunt"
+  },
+  {
+    "rank": "6",
+    "name": "Marinero Miki",
+    "skin": "#f0af7a",
+    "hair": "#1b1718",
+    "shirt": "#00aeea",
+    "pants": "#ffd21f",
+    "accent": "#ff3d94",
+    "item": "salute",
+    "vibe": "sailor"
+  },
+  {
+    "rank": "7",
+    "name": "Pili Pi",
+    "skin": "#eea480",
+    "hair": "#ffcf28",
+    "shirt": "#ffd21f",
+    "pants": "#ff3d94",
+    "accent": "#00aeea",
+    "item": "calculator",
+    "vibe": "math nerd"
+  },
+  {
+    "rank": "8",
+    "name": "Regla Rolo",
+    "skin": "#8e523d",
+    "hair": "#19171c",
+    "shirt": "#ff3d94",
+    "pants": "#00aeea",
+    "accent": "#ffd21f",
+    "item": "whistle",
+    "vibe": "referee"
+  },
+  {
+    "rank": "9",
+    "name": "Nando Nueve",
+    "skin": "#d98459",
+    "hair": "#00aeea",
+    "shirt": "#00aeea",
+    "pants": "#ffd21f",
+    "accent": "#ff3d94",
+    "item": "trumpet",
+    "vibe": "party veteran"
+  },
+  {
+    "rank": "10",
+    "name": "Dani Disco",
+    "skin": "#ce7758",
+    "hair": "#1c1821",
+    "shirt": "#ff3d94",
+    "pants": "#00aeea",
+    "accent": "#ffd21f",
+    "item": "headphones",
+    "vibe": "lesbian DJ"
+  },
+  {
+    "rank": "J",
+    "name": "Jota Joy",
+    "skin": "#e9ad83",
+    "hair": "#ff3d94",
+    "shirt": "#ffd21f",
+    "pants": "#00aeea",
+    "accent": "#ff3d94",
+    "item": "fan",
+    "vibe": "gay club prince"
+  },
+  {
+    "rank": "Q",
+    "name": "Reina Rosi",
+    "skin": "#f3a77f",
+    "hair": "#ffd21f",
+    "shirt": "#00aeea",
+    "pants": "#ff3d94",
+    "accent": "#ffd21f",
+    "item": "crown",
+    "vibe": "party queen"
+  },
+  {
+    "rank": "K",
+    "name": "Rey Rufi",
+    "skin": "#bf7049",
+    "hair": "#7c361c",
+    "shirt": "#ffd21f",
+    "pants": "#00aeea",
+    "accent": "#ff3d94",
+    "item": "beer",
+    "vibe": "party king"
+  }
+]
