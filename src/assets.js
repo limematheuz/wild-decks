@@ -13,11 +13,11 @@ export const NUMBERED_CARD_BACKDROPS = {
 };
 
 export const CHARACTER_ART = {
-  A: asset("/assets/cards/ace-herald.png", "The royal herald"),
-  J: asset("/assets/cards/prince.png", "The prince"),
-  Q: asset("/assets/cards/queen.png", "The queen"),
-  K: asset("/assets/cards/king.png", "The king"),
-  joker: asset("/assets/cards/joker.png", "The joker")
+  A: asset("/assets/cards/ace-herald-cutout.png", "The royal herald"),
+  J: asset("/assets/cards/prince-cutout.png", "The prince"),
+  Q: asset("/assets/cards/queen-cutout.png", "The queen"),
+  K: asset("/assets/cards/king-cutout.png", "The king"),
+  joker: asset("/assets/cards/joker-cutout.png", "The joker")
 };
 
 export const NUMBERED_RANKS = new Set(["2", "3", "4", "5", "6", "7", "8", "9", "10"]);

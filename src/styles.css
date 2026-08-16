@@ -81,14 +81,14 @@ button:focus-visible, select:focus-visible { outline: 4px solid #fff; outline-of
 .game-stage { align-items: center; display: grid; gap: 8px; grid-template-rows: minmax(0, 1fr) auto auto; min-height: 0; }
 
 /* A single reusable poker-card frame: the visual asset is always placed inside it. */
-.playing-card { align-self: center; aspect-ratio: 2 / 3; background: #fff5d9; border: 5px solid #111; box-shadow: 8px 8px 0 #111; height: min(100%, 70svh); justify-self: center; max-width: 100%; min-height: 0; overflow: hidden; position: relative; width: auto; }
+.playing-card { align-self: center; aspect-ratio: 2 / 3; background: #fff5d9; border: 5px solid #111; box-shadow: 8px 8px 0 #111; height: auto; justify-self: center; max-width: 100%; min-height: 0; overflow: hidden; position: relative; width: min(100%, 46.667svh); }
 .card-corner { background: #fff5d9; color: #df202c; display: grid; font-family: "Archivo Black", Impact, sans-serif; font-size: clamp(1.65rem, 10vw, 2.6rem); justify-items: center; line-height: .78; padding: 4px 6px; position: absolute; text-align: center; text-shadow: 1px 1px 0 currentColor; z-index: 4; }
 .card-corner span:last-child { font-family: "Archivo Black", "Arial Black", sans-serif; font-size: .82em; line-height: .8; }
 .card-corner--top { left: 11px; top: 12px; }
 .card-corner--bottom { bottom: 12px; right: 11px; transform: rotate(180deg); }
 .playing-card[data-suit-color="black"] .card-corner { color: #111; }
 .card-figure { align-items: center; background: repeating-conic-gradient(from 8deg at 52% 48%, #ffea13 0deg 11deg, #ffbe16 11deg 23deg, #ff8d16 23deg 31deg, #ffdb20 31deg 42deg); display: flex; inset: 7% 4.5%; justify-content: center; overflow: hidden; position: absolute; }
-.card-figure img { filter: saturate(1.05) contrast(1.03); height: 112%; max-width: none; mix-blend-mode: multiply; object-fit: contain; position: relative; transform: none; width: 112%; z-index: 1; }
+.card-figure img { filter: none; height: 112%; max-width: none; mix-blend-mode: normal; object-fit: contain; position: relative; transform: none; width: 112%; z-index: 1; }
 .playing-card.is-numbered .card-figure, .playing-card.is-card-back .card-figure { inset: 0; }
 /* The numbered art already contains a printed card edge. Overscan it so the shared CSS frame is the only visible frame. */
 .playing-card.is-numbered .card-figure img, .playing-card.is-card-back .card-figure img { filter: none; height: 120%; mix-blend-mode: normal; object-fit: cover; width: 120%; }
