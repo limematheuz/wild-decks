@@ -32,6 +32,16 @@ test("the localized decks keep the same 104-card structure", () => {
   }
 });
 
+test("wild cards keep their rules in the selected language", () => {
+  assert.match(getModeCopy("wild", "es").actions.A[1], /confesion/i);
+  assert.match(getModeCopy("wild", "pt").actions.A[1], /confissao/i);
+});
+
+test("classic cards keep their rules in the selected language", () => {
+  assert.match(getModeCopy("clasico", "es").actions["3"][1], /personas/i);
+  assert.match(getModeCopy("clasico", "pt").actions["3"][1], /pessoas/i);
+});
+
 test("drawing removes exactly one card", () => {
   const deck = createDeck("wild");
   const { card, deck: nextDeck } = drawRandomCard(deck, () => 0);

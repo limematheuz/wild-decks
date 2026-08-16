@@ -9,11 +9,6 @@ function logoImage(locale, className = "") {
   return `<img class="${className}" src="${logo.path}" alt="${logo.alt}" />`;
 }
 
-function artImage(rank, className = "") {
-  const art = CHARACTER_ART[rank] ?? CHARACTER_ART.A;
-  return `<img class="${className}" src="${art.path}" alt="${art.alt}" />`;
-}
-
 app.innerHTML = `
   <div class="app-shell">
     <div class="page-rays" aria-hidden="true"></div>
@@ -29,22 +24,20 @@ app.innerHTML = `
     <section class="screen home-screen" data-screen="home">
       <div class="home-layout">
         <header class="home-topline">
-          <label class="language-picker" aria-label="Language">
-            <select data-ui="locale"><option value="en">English</option><option value="es">Espanol</option><option value="pt">Portugues</option></select>
-          </label>
+          <nav class="locale-switcher" aria-label="Language" data-ui="locale-switcher">
+            <button class="locale-button" data-action="locale" data-locale="en" type="button" aria-label="English">EN</button>
+            <button class="locale-button" data-action="locale" data-locale="es" type="button" aria-label="Espanol">ES</button>
+            <button class="locale-button" data-action="locale" data-locale="pt" type="button" aria-label="Portugues">PT</button>
+          </nav>
           <button class="icon-button" data-action="open-rules-home" type="button" aria-label="Rules">?</button>
         </header>
-        ${logoImage("en", "brand-logo")}
-        <div class="character-cast" aria-hidden="true">
-          ${artImage("Q", "cast-character cast-character--queen")}
-          ${artImage("joker", "cast-character cast-character--joker")}
-          ${artImage("K", "cast-character cast-character--king")}
-        </div>
+        <div class="home-hero">${logoImage("en", "brand-logo")}</div>
+        <div class="home-message"><p class="eyebrow">Two decks. No mercy.</p><p data-ui="age-note">Only for the legal drinking age in your country.</p></div>
         <div class="home-actions">
           <button class="solid-button solid-button--pink" data-action="start" type="button" data-copy="start">Start the mess</button>
           <button class="solid-button solid-button--yellow" data-action="open-rules-home" type="button" data-copy="rules">Rules</button>
         </div>
-        <footer class="age-strip"><strong>18+</strong><span data-ui="age-note">Alcohol game. Play responsibly.</span></footer>
+        <footer class="age-strip"><strong>18+</strong><span data-copy="ageCopy">Alcohol game. Play responsibly.</span></footer>
       </div>
     </section>
 
@@ -56,9 +49,11 @@ app.innerHTML = `
         </header>
         <div class="selection-subhead">
           <p class="eyebrow" data-copy="appName">Wild Decks</p>
-          <label class="language-picker" aria-label="Language">
-            <select data-ui="locale-secondary"><option value="en">EN</option><option value="es">ES</option><option value="pt">PT</option></select>
-          </label>
+          <nav class="locale-switcher locale-switcher--compact" aria-label="Language" data-ui="locale-switcher-secondary">
+            <button class="locale-button" data-action="locale" data-locale="en" type="button" aria-label="English">EN</button>
+            <button class="locale-button" data-action="locale" data-locale="es" type="button" aria-label="Espanol">ES</button>
+            <button class="locale-button" data-action="locale" data-locale="pt" type="button" aria-label="Portugues">PT</button>
+          </nav>
         </div>
         <div class="mode-grid" data-ui="mode-grid"></div>
       </div>
@@ -150,10 +145,9 @@ function setDrawer(open) { ui.drawer.classList.toggle("is-open", open); ui.drawe
 function renderModeGrid() {
   ui.modeGrid.innerHTML = Object.values(GAME_MODES).map((mode) => {
     const content = modeCopy(mode.id);
-    const art = CHARACTER_ART[mode.heroRank];
     return `<article class="mode-tile mode-tile--${mode.color}">
-      <div class="mode-copy"><h2 class="heading">${content.label}</h2><p>${content.description}</p><button class="solid-button solid-button--${mode.id === "clasico" ? "pink" : "yellow"}" data-action="play" data-mode="${mode.id}" type="button">${copy().play}</button></div>
-      <div class="mode-art"><img src="${art.path}" alt="${art.alt}" /></div>
+      <div class="mode-copy"><p class="mode-tag">${mode.id === "clasico" ? "104 / NO JOKERS" : "TRUTHS / DARES"}</p><h2 class="heading">${content.label}</h2><p>${content.description}</p><button class="solid-button solid-button--${mode.id === "clasico" ? "pink" : "yellow"}" data-action="play" data-mode="${mode.id}" type="button">${copy().play}</button></div>
+      <div class="mode-art-placeholder" aria-hidden="true"><span>${mode.id === "clasico" ? "104" : "WILD"}</span></div>
     </article>`;
   }).join("");
 }
@@ -165,10 +159,14 @@ function renderCopy() {
     const key = node.dataset.copy;
     if (strings[key]) node.textContent = strings[key];
   });
-  document.querySelectorAll("[data-ui=locale], [data-ui=locale-secondary]").forEach((node) => { node.value = locale; });
+  document.querySelectorAll(".locale-button").forEach((node) => {
+    const isActive = node.dataset.locale === locale;
+    node.classList.toggle("is-active", isActive);
+    node.setAttribute("aria-pressed", String(isActive));
+  });
   document.querySelectorAll(".brand-logo").forEach((image) => { image.src = LOGOS[locale].path; image.alt = LOGOS[locale].alt; });
   ui.modeName.textContent = modeCopy().label;
-  ui.ageNote.textContent = strings.ageCopy;
+  ui.ageNote.textContent = strings.ageNotice;
   renderModeGrid();
 }
 
@@ -229,15 +227,12 @@ function setLocale(nextLocale) {
   resetDeck();
 }
 
-document.addEventListener("change", (event) => {
-  if (event.target.matches("[data-ui=locale], [data-ui=locale-secondary]")) setLocale(event.target.value);
-});
-
 document.addEventListener("click", (event) => {
   const target = event.target.closest("[data-action]");
   if (!target) return;
   const { action, mode } = target.dataset;
   if (action === "splash") finishSplash();
+  if (action === "locale") setLocale(target.dataset.locale);
   if (action === "start") getAgeOk() ? showScreen("decks") : setModal(ui.ageModal, true);
   if (action === "age-yes") { setAgeOk(); setModal(ui.ageModal, false); showScreen("decks"); }
   if (action === "age-no") setModal(ui.ageModal, false);

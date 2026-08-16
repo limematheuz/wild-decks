@@ -27,48 +27,106 @@ const classicActions = {
   K: ["King's decree", "All men at the table drink one shot."]
 };
 
-const wildActions = {
-  A: ["Fast confession", "Tell the table something that would be painful to see in a screenshot. Pass, and drink."],
-  "2": ["Two truths", "Give two truths: one spicy, one ridiculous. The table votes for the worst."],
-  "3": ["Danger ranking", "Rank three players in a category chosen by the group."],
-  "4": ["Phone down", "Leave your phone face-down until your next turn. Look at it and drink."],
-  "5": ["Forbidden story", "Tell the short version of a night you swore not to explain."],
-  "6": ["Act normal", "For one round, speak as if you are in a very strange job interview."],
-  "7": ["Secret Pi", "Replace every multiple of 3 with a tiny confession. Make a mistake and drink."],
-  "8": ["Wild rule", "Create an absurd social rule: accent, banned word, pose or gesture."],
-  "9": ["Mental screenshot", "Answer the table's question without overexplaining, or drink two sips."],
-  "10": ["Wild cafofo", "The group picks an awkward topic. More than five seconds of silence means a drink."],
-  J: ["Prince of drama", "The player on your left chooses: embarrassing truth or stage challenge."],
-  Q: ["No-filter queen", "The queen asks something direct. Anyone who passes raises a toast to cowardice."],
-  K: ["Secret king", "Everyone shares a small secret. The king chooses the most suspicious player to drink."]
+const classicActionsEs = {
+  A: ["Elige a uno", "Elige a 1 persona para beber."],
+  "2": ["Elige a dos", "Elige a 2 personas para beber."],
+  "3": ["Elige a tres", "Elige a 3 personas para beber."],
+  "4": ["Stop", "Elige una categoria y una letra. Da el primer ejemplo; seguid la ronda. Quien se bloquee o repita, bebe."],
+  "5": ["Memoria", "Di una palabra. Cada jugador repite toda la cadena y suma una nueva. Quien falle, bebe."],
+  "6": ["Continencia", "Guarda la carta. Saluda militarmente en secreto cuando quieras; el ultimo en notarlo e imitarte, bebe."],
+  "7": ["Pi", "Cuenta desde 1 cambiando cada multiplo de 3 por Pi. Quien falle, bebe."],
+  "8": ["Regla general", "Crea una regla para todos hasta que otra carta la sustituya. Quien la incumpla, bebe."],
+  "9": ["Continencia", "Guarda la carta. Usala cuando quieras; el ultimo en imitarte, bebe."],
+  "10": ["Cafofo", "Elige un tema. Todos dicen un ejemplo sin repetir; quien se bloquee, bebe."],
+  J: ["Vecino del principe", "La persona a tu izquierda bebe un chupito."],
+  Q: ["Las reinas mandan", "Todas las mujeres de la mesa beben un chupito."],
+  K: ["Decreto del rey", "Todos los hombres de la mesa beben un chupito."]
 };
 
-const translatedActions = (actions, locale) => {
-  if (locale === "en") return actions;
-  const suffix = locale === "pt" ? " Beba se preferir passar." : " Bebe si prefieres pasar.";
-  return Object.fromEntries(Object.entries(actions).map(([rank, [title, action]]) => [rank, [title, `${action}${suffix}`]]));
+const classicActionsPt = {
+  A: ["Escolhe um", "Escolhe 1 pessoa para beber."],
+  "2": ["Escolhe dois", "Escolhe 2 pessoas para beber."],
+  "3": ["Escolhe tres", "Escolhe 3 pessoas para beber."],
+  "4": ["Stop", "Escolhe uma categoria e uma letra. Da o primeiro exemplo; seguem em roda. Quem travar ou repetir, bebe."],
+  "5": ["Memoria", "Diz uma palavra. Cada jogador repete tudo e acrescenta uma palavra. Quem errar a sequencia, bebe."],
+  "6": ["Continencia", "Guarda a carta. Faz continencia escondido quando quiseres; o ultimo a reparar e imitar, bebe."],
+  "7": ["Pi", "Conta a partir de 1, trocando cada multiplo de 3 por Pi. Quem errar bebe."],
+  "8": ["Regra geral", "Cria uma regra para todos ate ser substituida. Quem a quebrar, bebe."],
+  "9": ["Continencia", "Guarda a carta. Usa quando quiseres; o ultimo a imitar, bebe."],
+  "10": ["Cafofo", "Escolhe um tema. Cada pessoa da um exemplo sem repetir; quem travar, bebe."],
+  J: ["Vizinho do principe", "O jogador a tua esquerda bebe uma dose."],
+  Q: ["As rainhas mandam", "Todas as mulheres da mesa bebem uma dose."],
+  K: ["Decreto do rei", "Todos os homens da mesa bebem uma dose."]
+};
+
+const wildActions = {
+  A: ["Spotlight", "Choose a player. They share an awkward but safe confession, or take 2 sips."],
+  "2": ["Double receipt", "Choose two players. Each tells one bad decision; the table picks the messier one for 2 sips."],
+  "3": ["Three-way dare", "Give three players a harmless 20-second pose or voice challenge. Anyone who refuses takes 2 sips."],
+  "4": ["Phone down", "Leave your phone face-down until your next turn. Check it early and take 2 sips."],
+  "5": ["Forbidden story", "Tell the short version of a night you swore not to explain. Pass and take 2 sips."],
+  "6": ["Act normal", "For one round, speak as if you are in a very strange job interview. Break character: 1 sip."],
+  "7": ["Secret Pi", "Count from 1. Replace multiples of 3 with a tiny confession. Miss one: 1 sip."],
+  "8": ["Wild rule", "Create one absurd rule: accent, banned word, pose or gesture. Breaking it costs 1 sip."],
+  "9": ["Mental screenshot", "Answer one direct question with a short answer. Pass is always allowed for 2 sips."],
+  "10": ["Wild cafofo", "The group picks an awkward topic. Five seconds of silence, repetition or a pass costs 2 sips."],
+  J: ["Prince of drama", "The player on your left chooses: an embarrassing truth or a safe stage challenge. Pass: 2 sips."],
+  Q: ["No-filter queen", "Ask the table one direct but respectful question. Anyone may pass for 1 sip."],
+  K: ["Secret king", "Everyone shares one harmless secret. The king picks the most suspicious answer for 2 sips."]
+};
+
+const wildActionsEs = {
+  A: ["El foco", "Elige a una persona. Cuenta una confesion incomoda pero segura, o bebe 2 sorbos."],
+  "2": ["Doble recibo", "Elige a dos personas. Cada una cuenta una mala decision; la mesa elige la peor para 2 sorbos."],
+  "3": ["Reto de tres", "Da a tres personas un reto inocente de voz o pose durante 20 segundos. Quien no quiera, bebe 2 sorbos."],
+  "4": ["Movil boca abajo", "Deja el movil boca abajo hasta tu siguiente turno. Si lo miras antes, bebes 2 sorbos."],
+  "5": ["Historia prohibida", "Cuenta la version corta de una noche que juraste no explicar. Si pasas, bebes 2 sorbos."],
+  "6": ["Actua normal", "Durante una ronda habla como si estuvieras en una entrevista muy rara. Si rompes el papel, bebe 1 sorbo."],
+  "7": ["Pi secreto", "Cuenta desde 1. Cambia los multiplos de 3 por una mini confesion. Si fallas, bebe 1 sorbo."],
+  "8": ["Regla salvaje", "Crea una regla absurda: acento, palabra prohibida, pose o gesto. Romperla cuesta 1 sorbo."],
+  "9": ["Captura mental", "Responde una pregunta directa de forma corta. Puedes pasar bebiendo 2 sorbos."],
+  "10": ["Cafofo salvaje", "La mesa elige un tema incomodo. Cinco segundos de silencio, repetir o pasar cuesta 2 sorbos."],
+  J: ["Principe del drama", "La persona a tu izquierda elige: verdad vergonzosa o reto escenico seguro. Pasar cuesta 2 sorbos."],
+  Q: ["Reina sin filtro", "Haz a la mesa una pregunta directa pero respetuosa. Cualquiera puede pasar por 1 sorbo."],
+  K: ["Rey del secreto", "Todos cuentan un secreto inofensivo. El rey elige el mas sospechoso para 2 sorbos."]
+};
+
+const wildActionsPt = {
+  A: ["No holofote", "Escolhe uma pessoa. Ela conta uma confissao constrangedora mas segura, ou bebe 2 goles."],
+  "2": ["Recibo duplo", "Escolhe duas pessoas. Cada uma conta uma ma decisao; a mesa escolhe a pior para 2 goles."],
+  "3": ["Desafio de tres", "Da a tres pessoas um desafio inocente de voz ou pose por 20 segundos. Quem nao quiser bebe 2 goles."],
+  "4": ["Telemovel virado", "Deixa o telemovel virado ate ao proximo turno. Se olhares antes, bebes 2 goles."],
+  "5": ["Historia proibida", "Conta a versao curta de uma noite que juraste nao explicar. Passar custa 2 goles."],
+  "6": ["Age normal", "Durante uma ronda fala como se estivesses numa entrevista muito estranha. Sair do papel custa 1 gole."],
+  "7": ["Pi secreto", "Conta desde 1. Troca os multiplos de 3 por uma mini confissao. Falhar custa 1 gole."],
+  "8": ["Regra selvagem", "Cria uma regra absurda: sotaque, palavra proibida, pose ou gesto. Quebrar custa 1 gole."],
+  "9": ["Screenshot mental", "Responde uma pergunta direta de forma curta. Podes passar bebendo 2 goles."],
+  "10": ["Cafofo selvagem", "A mesa escolhe um tema desconfortavel. Cinco segundos de silencio, repetir ou passar custa 2 goles."],
+  J: ["Principe do drama", "A pessoa a tua esquerda escolhe: verdade vergonhosa ou desafio cenico seguro. Passar custa 2 goles."],
+  Q: ["Rainha sem filtro", "Faz uma pergunta direta mas respeitosa a mesa. Qualquer pessoa pode passar por 1 gole."],
+  K: ["Rei do segredo", "Todos contam um segredo inofensivo. O rei escolhe o mais suspeito para 2 goles."]
 };
 
 export const COPY = {
   en: {
-    appName: "WILD DECKS", start: "Start the mess", rules: "Rules", selectDeck: "Choose your deck", play: "Play", draw: "Draw card", remaining: "left", menu: "Menu", reset: "Reset deck", exit: "Exit", close: "Close", ready: "Pick your poison", initialRule: "Draw a card. The consequence appears below it.", ageQuestion: "Are you 18 or older?", ageCopy: "This game can involve alcohol. Play responsibly and respect local law.", yes: "I am 18+", no: "No",
+    appName: "WILD DECKS", start: "Start the mess", rules: "Rules", selectDeck: "Choose your deck", play: "Play", draw: "Draw card", remaining: "cards left", menu: "Menu", reset: "Reset deck", exit: "Exit", close: "Close", ready: "Pick your poison", initialRule: "Draw a card. The consequence appears below it.", ageQuestion: "Are you of legal drinking age where you live?", ageCopy: "This game can involve alcohol. Play responsibly and follow the law in your country.", ageNotice: "Only for the legal drinking age in your country.", yes: "I am of age", no: "No",
     modes: {
-      clasico: { label: "SUECA BEBADA", description: "The classic drinking deck. Two decks, 104 cards, no jokers.", rulesTitle: "Sueca Bebada rules", rules: ["Play with two full decks: 104 cards, no jokers.", "Nobody leaves the game in the middle of a round.", "Draw a card and complete the action shown.", "Drink responsibly; non-alcoholic alternatives count too."], actions: classicActions },
-      wild: { label: "WILD DECKS", description: "The louder deck: messy confessions and chaotic challenges.", rulesTitle: "Wild Decks rules", rules: ["Harder questions and awkward challenges, never pressure.", "No personal data or secrets about people who are not playing.", "Anyone may swap a card for a table-approved penalty.", "Consent wins every round."], actions: wildActions }
+      clasico: { label: "DRUNKEN SUECA", description: "The classic drinking deck. Two decks, 104 cards, no jokers.", rulesTitle: "Drunken Sueca rules", rules: ["Play with two full decks: 104 cards, no jokers.", "Nobody leaves the game in the middle of a round.", "Draw a card and complete the action shown.", "Drink responsibly; non-alcoholic alternatives count too."], actions: classicActions },
+      wild: { label: "WILD DECKS", description: "Confessions, dares and penalties with a way to pass.", rulesTitle: "Wild Decks rules", rules: ["Challenges should be embarrassing, never unsafe or cruel.", "No personal data or secrets about people who are not playing.", "Anyone may pass a prompt by taking the stated penalty or using a non-alcoholic alternative.", "Consent wins every round."], actions: wildActions }
     }
   },
   es: {
-    appName: "BARAJAS SALVAJES", start: "Empezar el caos", rules: "Normas", selectDeck: "Elige tu baraja", play: "Jugar", draw: "Tirar carta", remaining: "restantes", menu: "Menu", reset: "Reiniciar baraja", exit: "Salir", close: "Cerrar", ready: "Elige tu veneno", initialRule: "Tira una carta. La consecuencia aparece debajo.", ageQuestion: "Tienes 18 anos?", ageCopy: "Este juego puede incluir alcohol. Juega con responsabilidad y respeta la ley local.", yes: "Si, 18+", no: "No",
+    appName: "BARAJAS SALVAJES", start: "Empezar el caos", rules: "Normas", selectDeck: "Elige tu baraja", play: "Jugar", draw: "Tirar carta", remaining: "cartas", menu: "Menu", reset: "Reiniciar baraja", exit: "Salir", close: "Cerrar", ready: "Elige tu veneno", initialRule: "Tira una carta. La consecuencia aparece debajo.", ageQuestion: "Tienes la edad legal para beber en tu pais?", ageCopy: "Este juego puede incluir alcohol. Juega con responsabilidad y respeta la ley de tu pais.", ageNotice: "Solo para quien tenga la edad legal en su pais.", yes: "Tengo edad legal", no: "No",
     modes: {
-      clasico: { label: "SUECA BEBADA", description: "La clasica de beber. Dos barajas, 104 cartas, sin comodines.", rulesTitle: "Reglas de Sueca Bebada", rules: ["Se juega con dos barajas completas: 104 cartas y sin comodines.", "Nadie sale de la partida a mitad de una ronda.", "Tira una carta y cumple la accion que aparece.", "Bebe con responsabilidad; vale una alternativa sin alcohol."], actions: translatedActions(classicActions, "es") },
-      wild: { label: "BARAJAS SALVAJES", description: "La baraja ruidosa: confesiones incomodas y retos de caos.", rulesTitle: "Reglas de Barajas Salvajes", rules: ["Preguntas mas duras y retos incomodos, sin presionar a nadie.", "No reveles datos ni secretos de gente que no juega.", "Cualquiera puede cambiar una carta por una penitencia pactada.", "El consentimiento manda en cada ronda."], actions: translatedActions(wildActions, "es") }
+      clasico: { label: "SUECA BEBIDA", description: "La clasica de beber. Dos barajas, 104 cartas, sin comodines.", rulesTitle: "Reglas de Sueca Bebida", rules: ["Se juega con dos barajas completas: 104 cartas y sin comodines.", "Nadie sale de la partida a mitad de una ronda.", "Tira una carta y cumple la accion que aparece.", "Bebe con responsabilidad; vale una alternativa sin alcohol."], actions: classicActionsEs },
+      wild: { label: "BARAJAS SALVAJES", description: "Confesiones, retos y castigos con derecho a pasar.", rulesTitle: "Reglas de Barajas Salvajes", rules: ["Los retos deben dar verguenza, nunca ser peligrosos ni crueles.", "No reveles datos ni secretos de gente que no juega.", "Cualquiera puede pasar pagando el castigo indicado o con una bebida sin alcohol.", "El consentimiento manda en cada ronda."], actions: wildActionsEs }
     }
   },
   pt: {
-    appName: "BARALHOS SELVAGENS", start: "Comecar o caos", rules: "Regras", selectDeck: "Escolhe o baralho", play: "Jogar", draw: "Tirar carta", remaining: "restantes", menu: "Menu", reset: "Reiniciar baralho", exit: "Sair", close: "Fechar", ready: "Escolhe o veneno", initialRule: "Tira uma carta. A consequencia aparece abaixo.", ageQuestion: "Tens 18 anos ou mais?", ageCopy: "Este jogo pode incluir alcool. Joga com responsabilidade e respeita a lei local.", yes: "Tenho 18+", no: "Nao",
+    appName: "BARALHOS SELVAGENS", start: "Comecar o caos", rules: "Regras", selectDeck: "Escolhe o baralho", play: "Jogar", draw: "Tirar carta", remaining: "cartas", menu: "Menu", reset: "Reiniciar baralho", exit: "Sair", close: "Fechar", ready: "Escolhe o veneno", initialRule: "Tira uma carta. A consequencia aparece abaixo.", ageQuestion: "Tens idade legal para beber no teu pais?", ageCopy: "Este jogo pode incluir alcool. Joga com responsabilidade e respeita a lei do teu pais.", ageNotice: "So para quem tem a idade legal no seu pais.", yes: "Tenho idade legal", no: "Nao",
     modes: {
-      clasico: { label: "SUECA BEBADA", description: "A versao de bebida. Dois baralhos, 104 cartas, sem coringas.", rulesTitle: "Regras - Sueca Bebada", rules: ["Versao de bebida da sueca, jogada com 2 baralhos completos: 104 cartas e sem coringas.", "Regra de ouro: ninguem pode sair do jogo em nenhum momento.", "Tira uma carta no app e faz a acao apresentada.", "Joga com responsabilidade; bebida sem alcool tambem vale."], actions: translatedActions(classicActions, "pt") },
-      wild: { label: "BARALHOS SELVAGENS", description: "O baralho mais pesado: segredos, desafios e caos.", rulesTitle: "Regras - Baralhos Selvagens", rules: ["Perguntas mais fortes e desafios vergonhosos, sem pressionar ninguem.", "Nao exponhas dados ou segredos de quem nao esta a jogar.", "Qualquer pessoa pode trocar uma carta por uma prenda combinada.", "Consentimento manda em todas as rondas."], actions: translatedActions(wildActions, "pt") }
+      clasico: { label: "SUECA BEBADA", description: "A versao de bebida. Dois baralhos, 104 cartas, sem coringas.", rulesTitle: "Regras - Sueca Bebada", rules: ["Versao de bebida da sueca, jogada com 2 baralhos completos: 104 cartas e sem coringas.", "Regra de ouro: ninguem pode sair do jogo em nenhum momento.", "Tira uma carta no app e faz a acao apresentada.", "Joga com responsabilidade; bebida sem alcool tambem vale."], actions: classicActionsPt },
+      wild: { label: "BARALHOS SELVAGENS", description: "Confissoes, desafios e castigos com direito de passar.", rulesTitle: "Regras - Baralhos Selvagens", rules: ["Os desafios devem dar vergonha, nunca ser perigosos ou crueis.", "Nao exponhas dados ou segredos de quem nao esta a jogar.", "Qualquer pessoa pode passar tomando a prenda indicada ou uma bebida sem alcool.", "Consentimento manda em todas as rondas."], actions: wildActionsPt }
     }
   }
 };
