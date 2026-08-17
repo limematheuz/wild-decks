@@ -1,5 +1,5 @@
 import "./styles.css";
-import { CHARACTER_ART, LOGOS, getCardArt, getCardBack } from "./assets.js";
+import { CHARACTER_ART, LOGOS, MODE_ART, getCardArt, getCardBack } from "./assets.js";
 import { GAME_MODES, RANKS, createDeck, drawRandomCard, getCopy, getModeCopy } from "./decks.js";
 
 const app = document.querySelector("#app");
@@ -167,9 +167,10 @@ function setDrawer(open) {
 function renderModeGrid() {
   ui.modeGrid.innerHTML = Object.values(GAME_MODES).map((mode) => {
     const content = modeCopy(mode.id);
+    const art = MODE_ART[mode.id];
     return `<article class="mode-tile mode-tile--${mode.color}">
       <div class="mode-copy"><p class="mode-tag">${mode.id === "clasico" ? "104 / NO JOKERS" : "106 / 2 JOKERS"}</p><h2 class="heading">${content.label}</h2><p>${content.description}</p></div>
-      <div class="mode-art-placeholder" aria-hidden="true"><span>${mode.id === "clasico" ? "104" : "WILD"}</span></div>
+      <div class="mode-art"><img src="${art.path}" alt="${art.alt}" decoding="async" /></div>
       <button class="solid-button solid-button--${mode.id === "clasico" ? "pink" : "yellow"}" data-action="play" data-mode="${mode.id}" type="button">${copy().play}</button>
     </article>`;
   }).join("");

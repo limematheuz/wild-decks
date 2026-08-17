@@ -20,6 +20,11 @@ export const CHARACTER_ART = {
   joker: asset("/assets/cards/joker-cutout.png", "The joker")
 };
 
+export const MODE_ART = {
+  clasico: asset("/assets/modes/classic-queen-king.png", "The queen rules the classic deck"),
+  wild: asset("/assets/modes/wild-prince-king.png", "The prince brings chaos to the wild deck")
+};
+
 export const NUMBERED_RANKS = new Set(["2", "3", "4", "5", "6", "7", "8", "9", "10"]);
 
 export function getCardBack(locale) {
