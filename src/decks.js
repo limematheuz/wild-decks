@@ -60,73 +60,76 @@ const classicActionsPt = {
 };
 
 const wildActions = {
-  A: ["Spotlight", "Choose a player. They share an awkward but safe confession, or take 2 sips."],
-  "2": ["Double receipt", "Choose two players. Each tells one bad decision; the table picks the messier one for 2 sips."],
-  "3": ["Three-way dare", "Give three players a harmless 20-second pose or voice challenge. Anyone who refuses takes 2 sips."],
-  "4": ["Phone down", "Leave your phone face-down until your next turn. Check it early and take 2 sips."],
-  "5": ["Forbidden story", "Tell the short version of a night you swore not to explain. Pass and take 2 sips."],
-  "6": ["Act normal", "For one round, speak as if you are in a very strange job interview. Break character: 1 sip."],
-  "7": ["Secret Pi", "Count from 1. Replace multiples of 3 with a tiny confession. Miss one: 1 sip."],
-  "8": ["Wild rule", "Create one absurd rule: accent, banned word, pose or gesture. Breaking it costs 1 sip."],
-  "9": ["Mental screenshot", "Answer one direct question with a short answer. Pass is always allowed for 2 sips."],
-  "10": ["Wild cafofo", "The group picks an awkward topic. Five seconds of silence, repetition or a pass costs 2 sips."],
-  J: ["Prince of drama", "The player on your left chooses: an embarrassing truth or a safe stage challenge. Pass: 2 sips."],
-  Q: ["No-filter queen", "Ask the table one direct but respectful question. Anyone may pass for 1 sip."],
-  K: ["Secret king", "Everyone shares one harmless secret. The king picks the most suspicious answer for 2 sips."]
+  A: ["Spotlight", "Choose a player. They give the raw version of one bad decision or take 3 sips."],
+  "2": ["Double receipt", "Choose two players. Each tells their most embarrassing party story; the table gives 3 sips to the messier one."],
+  "3": ["Three-way shame", "Give three players a 30-second performance: an imitation, disaster speech or dramatic entrance. Refusing costs 3 sips."],
+  "4": ["Court of shame", "The table picks one past cringe habit. Defend it like a lawyer for 30 seconds or take 3 sips."],
+  "5": ["Forbidden story", "Tell the short version of a night you swore never to explain. Pass and take 3 sips."],
+  "6": ["Lie detector", "The table asks one direct question. Answer in five seconds or take 2 sips."],
+  "7": ["Pi", "Count aloud from 1. Replace every multiple of 3 with Pi. Make a mistake and take 2 sips."],
+  "8": ["Wild rule", "Create one brutal table rule: banned word, accent, pose or ritual. Break it and take 2 sips until another rule replaces it."],
+  "9": ["Hot seat", "One player gets 60 seconds of rapid-fire questions. They may pass any question for 2 sips."],
+  "10": ["Last call", "Give one player a choice: a hard confession or a consensual performance dare picked by the table. Passing costs 3 sips."],
+  J: ["Prince of drama", "The player on your left delivers a 30-second over-the-top apology or takes 3 sips."],
+  Q: ["No-filter queen", "Ask anyone any question. They answer or take 2 sips."],
+  K: ["King of ruin", "Everyone names their worst decision. The king picks one player for the table's toughest legal, consensual dare; pass: 3 sips."],
+  joker: ["Black joker", "Name the table's most ruthless legal, consensual adult dare. The chosen player accepts, uses a clear pass, or takes 3 sips. Anyone may veto danger."]
 };
 
 const wildActionsEs = {
-  A: ["El foco", "Elige a una persona. Cuenta una confesion incomoda pero segura, o bebe 2 sorbos."],
-  "2": ["Doble recibo", "Elige a dos personas. Cada una cuenta una mala decision; la mesa elige la peor para 2 sorbos."],
-  "3": ["Reto de tres", "Da a tres personas un reto inocente de voz o pose durante 20 segundos. Quien no quiera, bebe 2 sorbos."],
-  "4": ["Movil boca abajo", "Deja el movil boca abajo hasta tu siguiente turno. Si lo miras antes, bebes 2 sorbos."],
-  "5": ["Historia prohibida", "Cuenta la version corta de una noche que juraste no explicar. Si pasas, bebes 2 sorbos."],
-  "6": ["Actua normal", "Durante una ronda habla como si estuvieras en una entrevista muy rara. Si rompes el papel, bebe 1 sorbo."],
-  "7": ["Pi secreto", "Cuenta desde 1. Cambia los multiplos de 3 por una mini confesion. Si fallas, bebe 1 sorbo."],
-  "8": ["Regla salvaje", "Crea una regla absurda: acento, palabra prohibida, pose o gesto. Romperla cuesta 1 sorbo."],
-  "9": ["Captura mental", "Responde una pregunta directa de forma corta. Puedes pasar bebiendo 2 sorbos."],
-  "10": ["Cafofo salvaje", "La mesa elige un tema incomodo. Cinco segundos de silencio, repetir o pasar cuesta 2 sorbos."],
-  J: ["Principe del drama", "La persona a tu izquierda elige: verdad vergonzosa o reto escenico seguro. Pasar cuesta 2 sorbos."],
-  Q: ["Reina sin filtro", "Haz a la mesa una pregunta directa pero respetuosa. Cualquiera puede pasar por 1 sorbo."],
-  K: ["Rey del secreto", "Todos cuentan un secreto inofensivo. El rey elige el mas sospechoso para 2 sorbos."]
+  A: ["El foco", "Elige a una persona. Cuenta la version sin maquillar de una mala decision o bebe 3 sorbos."],
+  "2": ["Doble recibo", "Elige a dos personas. Cada una cuenta su peor historia de fiesta; la mesa da 3 sorbos a la mas caotica."],
+  "3": ["Verguenza a tres", "Da a tres personas 30 segundos de actuacion: imitacion, discurso desastre o entrada dramatica. Negarse cuesta 3 sorbos."],
+  "4": ["Tribunal de la verguenza", "La mesa elige una costumbre vergonzosa del pasado. Defiendela como abogado durante 30 segundos o bebe 3 sorbos."],
+  "5": ["Historia prohibida", "Cuenta la version corta de una noche que juraste no explicar. Si pasas, bebes 3 sorbos."],
+  "6": ["Detector de mentiras", "La mesa hace una pregunta directa. Responde en cinco segundos o bebe 2 sorbos."],
+  "7": ["Pi", "Cuenta desde 1. Cambia cada multiplo de 3 por Pi. Si fallas, bebes 2 sorbos."],
+  "8": ["Regla salvaje", "Crea una regla brutal: palabra prohibida, acento, pose o ritual. Romperla cuesta 2 sorbos hasta que otra la sustituya."],
+  "9": ["Silla caliente", "Una persona recibe preguntas rapidas durante 60 segundos. Puede pasar cualquiera por 2 sorbos."],
+  "10": ["Ultima ronda", "Da a una persona a elegir: confesion dura o reto de actuacion consensuado elegido por la mesa. Pasar cuesta 3 sorbos."],
+  J: ["Principe del drama", "La persona a tu izquierda hace una disculpa exagerada de 30 segundos o bebe 3 sorbos."],
+  Q: ["Reina sin filtro", "Haz a quien quieras cualquier pregunta. Responde o bebe 2 sorbos."],
+  K: ["Rey de la ruina", "Todos nombran su peor decision. El rey elige a una persona para el reto legal y consensuado mas duro de la mesa; pasar: 3 sorbos."],
+  joker: ["Joker negro", "Nombra el reto adulto legal y consensuado mas despiadado de la mesa. La persona elegida acepta, usa un pase claro o bebe 3 sorbos. Cualquiera puede vetar algo peligroso."]
 };
 
 const wildActionsPt = {
-  A: ["No holofote", "Escolhe uma pessoa. Ela conta uma confissao constrangedora mas segura, ou bebe 2 goles."],
-  "2": ["Recibo duplo", "Escolhe duas pessoas. Cada uma conta uma ma decisao; a mesa escolhe a pior para 2 goles."],
-  "3": ["Desafio de tres", "Da a tres pessoas um desafio inocente de voz ou pose por 20 segundos. Quem nao quiser bebe 2 goles."],
-  "4": ["Telemovel virado", "Deixa o telemovel virado ate ao proximo turno. Se olhares antes, bebes 2 goles."],
-  "5": ["Historia proibida", "Conta a versao curta de uma noite que juraste nao explicar. Passar custa 2 goles."],
-  "6": ["Age normal", "Durante uma ronda fala como se estivesses numa entrevista muito estranha. Sair do papel custa 1 gole."],
-  "7": ["Pi secreto", "Conta desde 1. Troca os multiplos de 3 por uma mini confissao. Falhar custa 1 gole."],
-  "8": ["Regra selvagem", "Cria uma regra absurda: sotaque, palavra proibida, pose ou gesto. Quebrar custa 1 gole."],
-  "9": ["Screenshot mental", "Responde uma pergunta direta de forma curta. Podes passar bebendo 2 goles."],
-  "10": ["Cafofo selvagem", "A mesa escolhe um tema desconfortavel. Cinco segundos de silencio, repetir ou passar custa 2 goles."],
-  J: ["Principe do drama", "A pessoa a tua esquerda escolhe: verdade vergonhosa ou desafio cenico seguro. Passar custa 2 goles."],
-  Q: ["Rainha sem filtro", "Faz uma pergunta direta mas respeitosa a mesa. Qualquer pessoa pode passar por 1 gole."],
-  K: ["Rei do segredo", "Todos contam um segredo inofensivo. O rei escolhe o mais suspeito para 2 goles."]
+  A: ["No holofote", "Escolhe uma pessoa. Ela conta a versao sem filtro de uma ma decisao ou bebe 3 goles."],
+  "2": ["Recibo duplo", "Escolhe duas pessoas. Cada uma conta a pior historia de festa; a mesa da 3 goles a mais caotica."],
+  "3": ["Vergonha a tres", "Da a tres pessoas 30 segundos de atuacao: imitacao, discurso desastre ou entrada dramatica. Recusar custa 3 goles."],
+  "4": ["Tribunal da vergonha", "A mesa escolhe um habito vergonhoso do passado. Defende-o como advogado por 30 segundos ou bebe 3 goles."],
+  "5": ["Historia proibida", "Conta a versao curta de uma noite que juraste nunca explicar. Passar custa 3 goles."],
+  "6": ["Detetor de mentiras", "A mesa faz uma pergunta direta. Responde em cinco segundos ou bebe 2 goles."],
+  "7": ["Pi", "Conta a partir de 1. Troca cada multiplo de 3 por Pi. Se falhares, bebes 2 goles."],
+  "8": ["Regra selvagem", "Cria uma regra brutal: palavra proibida, sotaque, pose ou ritual. Quebrar custa 2 goles ate outra a substituir."],
+  "9": ["Cadeira quente", "Uma pessoa recebe perguntas rapidas por 60 segundos. Pode passar qualquer uma por 2 goles."],
+  "10": ["Ultima ronda", "Da a uma pessoa a escolha: confissao dura ou desafio de atuacao consensual escolhido pela mesa. Passar custa 3 goles."],
+  J: ["Principe do drama", "A pessoa a tua esquerda faz um pedido de desculpa exagerado por 30 segundos ou bebe 3 goles."],
+  Q: ["Rainha sem filtro", "Faz a quem quiseres qualquer pergunta. Responde ou bebe 2 goles."],
+  K: ["Rei da ruina", "Todos dizem a pior decisao. O rei escolhe uma pessoa para o desafio legal e consensual mais duro da mesa; passar: 3 goles."],
+  joker: ["Joker negro", "Nomeia o desafio adulto legal e consensual mais impiedoso da mesa. A pessoa escolhida aceita, usa um passe claro ou bebe 3 goles. Qualquer pessoa pode vetar perigo."]
 };
 
 export const COPY = {
   en: {
-    appName: "WILD DECKS", tagline: "Two decks. No mercy.", start: "Start the mess", rules: "Rules", selectDeck: "Choose your deck", play: "Play", draw: "Draw card", remaining: "cards left", menu: "Menu", reset: "Reset deck", exit: "Exit", close: "Close", ready: "Pick your poison", initialRule: "Draw a card. The consequence appears below it.", ageQuestion: "Are you of legal drinking age where you live?", ageCopy: "This game can involve alcohol. Play responsibly and follow the law in your country.", ageNotice: "Only for the legal drinking age in your country.", yes: "I am of age", no: "No",
+    appName: "WILD DECKS", tagline: "Two decks. No mercy.", start: "Start the mess", rules: "Rules", selectDeck: "Choose your deck", play: "Play", draw: "Draw card", remaining: "cards left", menu: "Menu", reset: "Reset deck", exit: "Exit", close: "Close", ready: "Pick your poison", initialRule: "Draw a card. The consequence appears below it.", ageQuestion: "Are you of legal drinking age where you live?", ageCopy: "This game can involve alcohol. Play responsibly and follow the law in your country.", ageNotice: "Only for the legal drinking age in your country.", ageCheck: "I confirm I am of legal drinking age where I live.", yes: "Continue", no: "Cancel",
     modes: {
       clasico: { label: "DRUNKEN SUECA", description: "The classic drinking deck. Two decks, 104 cards, no jokers.", rulesTitle: "Drunken Sueca rules", rules: ["Play with two full decks: 104 cards, no jokers.", "Nobody leaves the game in the middle of a round.", "Draw a card and complete the action shown.", "Drink responsibly; non-alcoholic alternatives count too."], actions: classicActions },
-      wild: { label: "WILD DECKS", description: "Confessions, dares and penalties with a way to pass.", rulesTitle: "Wild Decks rules", rules: ["Challenges should be embarrassing, never unsafe or cruel.", "No personal data or secrets about people who are not playing.", "Anyone may pass a prompt by taking the stated penalty or using a non-alcoholic alternative.", "Consent wins every round."], actions: wildActions }
+      wild: { label: "WILD DECKS", description: "Hardcore confessions, dares and consequences for consenting adults. 106 cards, 2 jokers.", rulesTitle: "Wild Decks rules", rules: ["Adults only. Keep it legal and agreed by everyone at the table.", "Challenges can be ruthless; no touching, private data or people outside the game without explicit consent.", "A clear pass is always valid: use the stated penalty or a non-alcoholic alternative.", "The table can veto anything unsafe. Consent is the one rule nobody breaks."], actions: wildActions }
     }
   },
   es: {
-    appName: "BARAJAS SALVAJES", tagline: "Dos barajas. Sin piedad.", start: "Empezar el caos", rules: "Normas", selectDeck: "Elige tu baraja", play: "Jugar", draw: "Tirar carta", remaining: "cartas", menu: "Menu", reset: "Reiniciar baraja", exit: "Salir", close: "Cerrar", ready: "Elige tu veneno", initialRule: "Tira una carta. La consecuencia aparece debajo.", ageQuestion: "Tienes la edad legal para beber en tu pais?", ageCopy: "Este juego puede incluir alcohol. Juega con responsabilidad y respeta la ley de tu pais.", ageNotice: "Solo para quien tenga la edad legal en su pais.", yes: "Tengo edad legal", no: "No",
+    appName: "BARAJAS SALVAJES", tagline: "Dos barajas. Sin piedad.", start: "Empezar el caos", rules: "Normas", selectDeck: "Elige tu baraja", play: "Jugar", draw: "Tirar carta", remaining: "cartas", menu: "Menu", reset: "Reiniciar baraja", exit: "Salir", close: "Cerrar", ready: "Elige tu veneno", initialRule: "Tira una carta. La consecuencia aparece debajo.", ageQuestion: "Tienes la edad legal para beber en tu pais?", ageCopy: "Este juego puede incluir alcohol. Juega con responsabilidad y respeta la ley de tu pais.", ageNotice: "Solo para quien tenga la edad legal en su pais.", ageCheck: "Confirmo que tengo la edad legal para beber donde vivo.", yes: "Continuar", no: "Cancelar",
     modes: {
       clasico: { label: "SUECA BEBIDA", description: "La clasica de beber. Dos barajas, 104 cartas, sin comodines.", rulesTitle: "Reglas de Sueca Bebida", rules: ["Se juega con dos barajas completas: 104 cartas y sin comodines.", "Nadie sale de la partida a mitad de una ronda.", "Tira una carta y cumple la accion que aparece.", "Bebe con responsabilidad; vale una alternativa sin alcohol."], actions: classicActionsEs },
-      wild: { label: "BARAJAS SALVAJES", description: "Confesiones, retos y castigos con derecho a pasar.", rulesTitle: "Reglas de Barajas Salvajes", rules: ["Los retos deben dar verguenza, nunca ser peligrosos ni crueles.", "No reveles datos ni secretos de gente que no juega.", "Cualquiera puede pasar pagando el castigo indicado o con una bebida sin alcohol.", "El consentimiento manda en cada ronda."], actions: wildActionsEs }
+      wild: { label: "BARAJAS SALVAJES", description: "Confesiones, retos y castigos hardcore para adultos que consienten. 106 cartas, 2 jokers.", rulesTitle: "Reglas de Barajas Salvajes", rules: ["Solo adultos. Todo debe ser legal y estar aceptado por la mesa.", "Los retos pueden ser duros: sin tocar, datos privados ni gente fuera del juego sin consentimiento explicito.", "Un pase claro siempre vale: usa el castigo indicado o una alternativa sin alcohol.", "La mesa puede vetar cualquier cosa peligrosa. El consentimiento es la unica regla intocable."], actions: wildActionsEs }
     }
   },
   pt: {
-    appName: "BARALHOS SELVAGENS", tagline: "Dois baralhos. Sem piedade.", start: "Comecar o caos", rules: "Regras", selectDeck: "Escolhe o baralho", play: "Jogar", draw: "Tirar carta", remaining: "cartas", menu: "Menu", reset: "Reiniciar baralho", exit: "Sair", close: "Fechar", ready: "Escolhe o veneno", initialRule: "Tira uma carta. A consequencia aparece abaixo.", ageQuestion: "Tens idade legal para beber no teu pais?", ageCopy: "Este jogo pode incluir alcool. Joga com responsabilidade e respeita a lei do teu pais.", ageNotice: "So para quem tem a idade legal no teu pais.", yes: "Tenho idade legal", no: "Nao",
+    appName: "BARALHOS SELVAGENS", tagline: "Dois baralhos. Sem piedade.", start: "Comecar o caos", rules: "Regras", selectDeck: "Escolhe o baralho", play: "Jogar", draw: "Tirar carta", remaining: "cartas", menu: "Menu", reset: "Reiniciar baralho", exit: "Sair", close: "Fechar", ready: "Escolhe o veneno", initialRule: "Tira uma carta. A consequencia aparece abaixo.", ageQuestion: "Tens idade legal para beber no teu pais?", ageCopy: "Este jogo pode incluir alcool. Joga com responsabilidade e respeita a lei do teu pais.", ageNotice: "So para quem tem a idade legal no teu pais.", ageCheck: "Confirmo que tenho a idade legal para beber onde vivo.", yes: "Continuar", no: "Cancelar",
     modes: {
       clasico: { label: "SUECA BEBADA", description: "A versao de bebida. Dois baralhos, 104 cartas, sem coringas.", rulesTitle: "Regras - Sueca Bebada", rules: ["Versao de bebida da sueca, jogada com 2 baralhos completos: 104 cartas e sem coringas.", "Regra de ouro: ninguem pode sair do jogo em nenhum momento.", "Tira uma carta no app e faz a acao apresentada.", "Joga com responsabilidade; bebida sem alcool tambem vale."], actions: classicActionsPt },
-      wild: { label: "BARALHOS SELVAGENS", description: "Confissoes, desafios e castigos com direito de passar.", rulesTitle: "Regras - Baralhos Selvagens", rules: ["Os desafios devem dar vergonha, nunca ser perigosos ou crueis.", "Nao exponhas dados ou segredos de quem nao esta a jogar.", "Qualquer pessoa pode passar tomando a prenda indicada ou uma bebida sem alcool.", "Consentimento manda em todas as rondas."], actions: wildActionsPt }
+      wild: { label: "BARALHOS SELVAGENS", description: "Confissoes, desafios e castigos hardcore para adultos que consentem. 106 cartas, 2 jokers.", rulesTitle: "Regras - Baralhos Selvagens", rules: ["So para adultos. Tudo deve ser legal e aceite por toda a mesa.", "Os desafios podem ser duros: sem tocar, dados privados ou pessoas fora do jogo sem consentimento explicito.", "Um passe claro vale sempre: usa a prenda indicada ou uma alternativa sem alcool.", "A mesa pode vetar qualquer coisa perigosa. Consentimento e a unica regra intocavel."], actions: wildActionsPt }
     }
   }
 };
@@ -144,6 +147,10 @@ export function createDeck(modeId = "clasico", locale = "en") {
         const [title, action] = actions[rank];
         cards.push({ id: `${mode.id}-${copy}-${rank}${suit.symbol}`, rank, suit: suit.symbol, suitColor: suit.color, title, action, mode: mode.id });
       }
+    }
+    if (mode.id === "wild") {
+      const [title, action] = actions.joker;
+      cards.push({ id: `${mode.id}-${copy}-joker`, rank: "joker", suit: "★", suitColor: "black", title, action, mode: mode.id });
     }
   }
   return cards;

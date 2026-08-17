@@ -29,7 +29,7 @@ app.innerHTML = `
             <button class="locale-button" data-action="locale" data-locale="es" type="button" aria-label="Espanol">ES</button>
             <button class="locale-button" data-action="locale" data-locale="pt" type="button" aria-label="Portugues">PT</button>
           </nav>
-          <button class="icon-button" data-action="open-info" type="button" aria-label="Information">i</button>
+          <button class="icon-button icon-button--help" data-action="open-info" type="button" aria-label="Information">?</button>
         </header>
         <div class="home-hero">${logoImage("en", "brand-logo")}</div>
         <div class="home-message"><p class="eyebrow" data-copy="tagline">Two decks. No mercy.</p><p data-ui="age-note">Only for the legal drinking age in your country.</p></div>
@@ -86,8 +86,9 @@ app.innerHTML = `
       <div class="modal-card">
         <h2 class="heading" id="age-title" data-copy="ageQuestion">Are you 18 or older?</h2>
         <p data-copy="ageCopy">This game can involve alcohol. Play responsibly and respect local law.</p>
+        <label class="age-check"><input data-ui="age-confirm" type="checkbox" /><span data-copy="ageCheck">I confirm I am of legal drinking age where I live.</span></label>
         <div class="modal-actions">
-          <button class="solid-button solid-button--pink" data-action="age-yes" type="button" data-copy="yes">I am 18+</button>
+          <button class="solid-button solid-button--pink" data-ui="age-yes" data-action="age-yes" type="button" data-copy="yes" disabled>Continue</button>
           <button class="solid-button solid-button--yellow" data-action="age-no" type="button" data-copy="no">No</button>
         </div>
       </div>
@@ -134,6 +135,7 @@ let currentModeId = "clasico";
 let deck = createDeck(currentModeId, locale);
 let splashTimer;
 let isRevealingCard = false;
+let audioContext;
 
 function getStoredLocale() {
   try { return localStorage.getItem("wild-decks-locale") || "en"; } catch { return "en"; }
@@ -141,14 +143,6 @@ function getStoredLocale() {
 
 function saveLocale() {
   try { localStorage.setItem("wild-decks-locale", locale); } catch { /* Storage is optional. */ }
-}
-
-function getAgeOk() {
-  try { return localStorage.getItem("wild-decks-age-ok") === "1"; } catch { return false; }
-}
-
-function setAgeOk() {
-  try { localStorage.setItem("wild-decks-age-ok", "1"); } catch { /* Storage is optional. */ }
 }
 
 function copy() { return getCopy(locale); }
@@ -165,7 +159,7 @@ function renderModeGrid() {
   ui.modeGrid.innerHTML = Object.values(GAME_MODES).map((mode) => {
     const content = modeCopy(mode.id);
     return `<article class="mode-tile mode-tile--${mode.color}">
-      <div class="mode-copy"><p class="mode-tag">${mode.id === "clasico" ? "104 / NO JOKERS" : "TRUTHS / DARES"}</p><h2 class="heading">${content.label}</h2><p>${content.description}</p></div>
+      <div class="mode-copy"><p class="mode-tag">${mode.id === "clasico" ? "104 / NO JOKERS" : "106 / 2 JOKERS"}</p><h2 class="heading">${content.label}</h2><p>${content.description}</p></div>
       <div class="mode-art-placeholder" aria-hidden="true"><span>${mode.id === "clasico" ? "104" : "WILD"}</span></div>
       <button class="solid-button solid-button--${mode.id === "clasico" ? "pink" : "yellow"}" data-action="play" data-mode="${mode.id}" type="button">${copy().play}</button>
     </article>`;
@@ -195,11 +189,13 @@ function setCardVisual(card) {
   const art = getCardArt(card.rank, locale);
   ui.card.classList.remove("is-card-back");
   ui.card.classList.toggle("is-numbered", art.numbered);
+  ui.card.classList.toggle("is-joker", card.rank === "joker");
   ui.card.dataset.suitColor = card.suitColor;
   ui.cardArt.src = art.path;
   ui.cardArt.alt = art.alt;
-  ui.cornerRankTop.textContent = card.rank;
-  ui.cornerRankBottom.textContent = card.rank;
+  const cardRank = card.rank === "joker" ? "JOKER" : card.rank;
+  ui.cornerRankTop.textContent = cardRank;
+  ui.cornerRankBottom.textContent = cardRank;
   ui.cornerSuitTop.textContent = card.suit;
   ui.cornerSuitBottom.textContent = card.suit;
 }
@@ -207,6 +203,7 @@ function setCardVisual(card) {
 function showCardBack() {
   const art = getCardBack(locale);
   ui.card.classList.remove("is-numbered");
+  ui.card.classList.remove("is-joker");
   ui.card.classList.add("is-card-back");
   ui.cardArt.src = art.path;
   ui.cardArt.alt = art.alt;
@@ -235,10 +232,11 @@ function drawCard() {
   if (!result.card) return;
   deck = result.deck;
   ui.remaining.textContent = deck.length;
-  ui.cardCode.textContent = `${result.card.rank}${result.card.suit}`;
+  ui.cardCode.textContent = `${result.card.rank === "joker" ? "JOKER" : result.card.rank}${result.card.suit}`;
   ui.ruleTitle.textContent = result.card.title;
   ui.ruleText.textContent = result.card.action;
   if (ui.card.classList.contains("is-card-back")) {
+    playSound("flip");
     isRevealingCard = true;
     ui.card.animate([
       { transform: "perspective(900px) rotateY(0deg)" },
@@ -249,6 +247,7 @@ function drawCard() {
     window.setTimeout(() => { isRevealingCard = false; }, 580);
     return;
   }
+  playSound("draw");
   setCardVisual(result.card);
   ui.card.animate([{ transform: "rotate(-2deg) scale(.94)" }, { transform: "rotate(1deg) scale(1.025)" }, { transform: "rotate(0) scale(1)" }], { duration: 360, easing: "cubic-bezier(.2,.9,.2,1)" });
 }
@@ -257,7 +256,8 @@ function openRules() {
   ui.rulesTitle.textContent = copy().rules;
   ui.rulesList.innerHTML = ["clasico", "wild"].map((modeId) => {
     const content = modeCopy(modeId);
-    const cardRules = RANKS.map((rank) => {
+    const ranks = modeId === "wild" ? [...RANKS, "joker"] : RANKS;
+    const cardRules = ranks.map((rank) => {
       const [title, action] = content.actions[rank];
       return `<li><strong>${rank} - ${title}</strong><span>${action}</span></li>`;
     }).join("");
@@ -267,6 +267,49 @@ function openRules() {
 }
 
 function finishSplash() { clearTimeout(splashTimer); showScreen("home"); }
+
+function playSound(kind = "click") {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) return;
+  audioContext ??= new AudioContextClass();
+  if (audioContext.state === "suspended") void audioContext.resume();
+
+  const now = audioContext.currentTime;
+  const output = audioContext.createGain();
+  output.gain.setValueAtTime(.0001, now);
+  output.connect(audioContext.destination);
+
+  const tone = (from, to, duration, type = "square", volume = .055, delay = 0) => {
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    const start = now + delay;
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(from, start);
+    oscillator.frequency.exponentialRampToValueAtTime(Math.max(28, to), start + duration);
+    gain.gain.setValueAtTime(volume, start);
+    gain.gain.exponentialRampToValueAtTime(.0001, start + duration);
+    oscillator.connect(gain).connect(output);
+    oscillator.start(start);
+    oscillator.stop(start + duration + .02);
+  };
+
+  if (kind === "flip") {
+    tone(920, 180, .24, "square", .055);
+    tone(230, 640, .16, "triangle", .04, .18);
+  } else if (kind === "draw") {
+    tone(190, 680, .12, "square", .05);
+    tone(670, 260, .22, "triangle", .045, .11);
+  } else if (kind === "start") {
+    tone(260, 900, .22, "square", .05);
+    tone(960, 1300, .12, "triangle", .035, .11);
+  } else if (kind === "success") {
+    tone(440, 880, .13, "square", .05);
+    tone(660, 1320, .18, "triangle", .04, .1);
+  } else {
+    tone(560, 350, .07, "square", .045);
+  }
+  output.gain.exponentialRampToValueAtTime(.0001, now + .6);
+}
 
 function setLocale(nextLocale) {
   locale = nextLocale;
@@ -280,23 +323,25 @@ document.addEventListener("click", (event) => {
   if (!target) return;
   const { action, mode } = target.dataset;
   if (action === "splash") finishSplash();
-  if (action === "locale") setLocale(target.dataset.locale);
-  if (action === "start") getAgeOk() ? showScreen("decks") : setModal(ui.ageModal, true);
-  if (action === "age-yes") { setAgeOk(); setModal(ui.ageModal, false); showScreen("decks"); }
-  if (action === "age-no") setModal(ui.ageModal, false);
-  if (action === "home") showScreen("home");
-  if (action === "play") setMode(mode);
+  if (action === "locale") { playSound(); setLocale(target.dataset.locale); }
+  if (action === "start") { ui.ageConfirm.checked = false; ui.ageYes.disabled = true; playSound("start"); setModal(ui.ageModal, true); }
+  if (action === "age-yes") { if (!ui.ageConfirm.checked) return; playSound("success"); setModal(ui.ageModal, false); showScreen("decks"); }
+  if (action === "age-no") { playSound(); setModal(ui.ageModal, false); }
+  if (action === "home") { playSound(); showScreen("home"); }
+  if (action === "play") { playSound("start"); setMode(mode); }
   if (action === "draw") drawCard();
-  if (action === "menu") setDrawer(true);
-  if (action === "close-menu") setDrawer(false);
-  if (action === "reset") { resetDeck(); setDrawer(false); }
-  if (action === "quit") { setDrawer(false); showScreen("decks"); }
-  if (action === "rules-current") { setDrawer(false); openRules(); }
-  if (action === "open-rules-home") openRules();
-  if (action === "open-info") setModal(ui.infoModal, true);
-  if (action === "close-info") setModal(ui.infoModal, false);
-  if (action === "close-rules") setModal(ui.rulesModal, false);
+  if (action === "menu") { playSound(); setDrawer(true); }
+  if (action === "close-menu") { playSound(); setDrawer(false); }
+  if (action === "reset") { playSound(); resetDeck(); setDrawer(false); }
+  if (action === "quit") { playSound(); setDrawer(false); showScreen("decks"); }
+  if (action === "rules-current") { playSound(); setDrawer(false); openRules(); }
+  if (action === "open-rules-home") { playSound(); openRules(); }
+  if (action === "open-info") { playSound(); setModal(ui.infoModal, true); }
+  if (action === "close-info") { playSound(); setModal(ui.infoModal, false); }
+  if (action === "close-rules") { playSound(); setModal(ui.rulesModal, false); }
 });
+
+ui.ageConfirm.addEventListener("change", () => { ui.ageYes.disabled = !ui.ageConfirm.checked; });
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {

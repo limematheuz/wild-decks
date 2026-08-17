@@ -6,10 +6,10 @@ test("there are two playable game modes", () => {
   assert.deepEqual(Object.keys(GAME_MODES), ["clasico", "wild"]);
 });
 
-test("each mode creates two complete decks without jokers", () => {
+test("both modes contain two complete standard decks, with jokers only in Wild", () => {
   for (const modeId of Object.keys(GAME_MODES)) {
     const deck = createDeck(modeId);
-    assert.equal(deck.length, 104);
+    assert.equal(deck.length, modeId === "wild" ? 106 : 104);
 
     for (const rank of RANKS) {
       for (const suit of SUITS) {
@@ -18,18 +18,21 @@ test("each mode creates two complete decks without jokers", () => {
       }
     }
   }
+  assert.equal(createDeck("clasico").filter((card) => card.rank === "joker").length, 0);
+  assert.equal(createDeck("wild").filter((card) => card.rank === "joker").length, 2);
 });
 
 test("classic and wild modes keep their separate card actions", () => {
   assert.match(getModeCopy("clasico", "en").actions.Q[1], /women/i);
-  assert.match(getModeCopy("wild", "en").actions.K[1], /secret/i);
+  assert.match(getModeCopy("wild", "en").actions.K[1], /toughest/i);
 });
 
 test("every rank has a visible action in both modes", () => {
   for (const locale of ["en", "es", "pt"]) {
     for (const modeId of Object.keys(GAME_MODES)) {
       const actions = getModeCopy(modeId, locale).actions;
-      for (const rank of RANKS) {
+      const ranks = modeId === "wild" ? [...RANKS, "joker"] : RANKS;
+      for (const rank of ranks) {
         assert.equal(actions[rank].length, 2, `${locale}/${modeId}/${rank} needs title and action`);
       }
     }
@@ -42,16 +45,17 @@ test("the home tagline is translated for every supported language", () => {
   assert.equal(getCopy("pt").tagline, "Dois baralhos. Sem piedade.");
 });
 
-test("the localized decks keep the same 104-card structure", () => {
+test("the localized decks preserve their expected card structure", () => {
   for (const locale of ["en", "es", "pt"]) {
     assert.equal(createDeck("clasico", locale).length, 104);
-    assert.equal(createDeck("wild", locale).length, 104);
+    assert.equal(createDeck("wild", locale).length, 106);
   }
 });
 
 test("wild cards keep their rules in the selected language", () => {
-  assert.match(getModeCopy("wild", "es").actions.A[1], /confesion/i);
-  assert.match(getModeCopy("wild", "pt").actions.A[1], /confissao/i);
+  assert.match(getModeCopy("wild", "es").actions.A[1], /mala decision/i);
+  assert.match(getModeCopy("wild", "pt").actions.A[1], /ma decisao/i);
+  assert.match(getModeCopy("wild", "es").actions.joker[1], /consensuado/i);
 });
 
 test("classic cards keep their rules in the selected language", () => {
@@ -63,6 +67,6 @@ test("drawing removes exactly one card", () => {
   const deck = createDeck("wild");
   const { card, deck: nextDeck } = drawRandomCard(deck, () => 0);
   assert.equal(card.id, "wild-1-A♥");
-  assert.equal(nextDeck.length, 103);
-  assert.equal(deck.length, 104);
+  assert.equal(nextDeck.length, 105);
+  assert.equal(deck.length, 106);
 });
