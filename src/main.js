@@ -103,7 +103,7 @@ app.innerHTML = `
     </div>
 
     <button class="drawer-scrim" data-ui="drawer-scrim" data-action="close-menu" type="button" aria-label="Close menu"></button>
-    <aside class="menu-drawer" data-ui="drawer" aria-hidden="true">
+    <aside class="menu-drawer" data-ui="drawer" aria-hidden="true" inert>
       <header><h2 class="heading" data-copy="menu">Menu</h2><button class="icon-button" data-action="close-menu" type="button" aria-label="Close">&times;</button></header>
       <nav class="locale-switcher locale-switcher--menu" aria-label="Language">
         <button class="locale-button" data-action="locale" data-locale="en" type="button" aria-label="English">EN</button>
@@ -136,6 +136,7 @@ let deck = createDeck(currentModeId, locale);
 let splashTimer;
 let isRevealingCard = false;
 let audioContext;
+let drawerReturnFocus;
 
 function getStoredLocale() {
   try { return localStorage.getItem("wild-decks-locale") || "en"; } catch { return "en"; }
@@ -150,6 +151,14 @@ function modeCopy(modeId = currentModeId) { return getModeCopy(modeId, locale); 
 function showScreen(name) { screens.forEach((screen) => screen.classList.toggle("is-active", screen.dataset.screen === name)); }
 function setModal(node, open) { node.classList.toggle("is-open", open); }
 function setDrawer(open) {
+  if (open) {
+    drawerReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    ui.drawer.inert = false;
+  } else {
+    const fallback = document.querySelector("[data-action='menu']");
+    if (ui.drawer.contains(document.activeElement)) (drawerReturnFocus ?? fallback)?.focus();
+    ui.drawer.inert = true;
+  }
   ui.drawer.classList.toggle("is-open", open);
   ui.drawer.setAttribute("aria-hidden", String(!open));
   ui.drawerScrim.classList.toggle("is-open", open);
