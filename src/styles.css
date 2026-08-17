@@ -81,18 +81,16 @@ button:focus-visible, select:focus-visible { outline: 4px solid #fff; outline-of
 .game-stage { align-items: center; display: grid; gap: 8px; grid-template-rows: minmax(0, 1fr) auto auto; min-height: 0; }
 
 /* A single reusable poker-card frame: the visual asset is always placed inside it. */
-.playing-card { align-self: center; aspect-ratio: 2 / 3; background: #fff5d9; border: 5px solid #111; box-shadow: 8px 8px 0 #111; height: auto; justify-self: center; max-width: 100%; min-height: 0; overflow: hidden; position: relative; width: min(100%, 46.667svh); }
+.playing-card { align-self: center; aspect-ratio: 2 / 3; background: #fff5d9; border: 5px solid #111; border-radius: 18px; box-shadow: 8px 8px 0 #111; height: auto; justify-self: center; max-width: 100%; min-height: 0; overflow: hidden; position: relative; width: min(100%, 46.667svh); }
 .card-corner { background: #fff5d9; color: #df202c; display: grid; font-family: "Archivo Black", Impact, sans-serif; font-size: clamp(1.65rem, 10vw, 2.6rem); justify-items: center; line-height: .78; padding: 4px 6px; position: absolute; text-align: center; text-shadow: 1px 1px 0 currentColor; z-index: 4; }
 .card-corner span:last-child { font-family: "Archivo Black", "Arial Black", sans-serif; font-size: .82em; line-height: .8; }
-.card-corner--top { left: 11px; top: 12px; }
-.card-corner--bottom { bottom: 12px; right: 11px; transform: rotate(180deg); }
+.card-corner--top { border-bottom-right-radius: 28px; left: 0; padding: 13px 18px 13px 13px; top: 0; }
+.card-corner--bottom { border-bottom-right-radius: 28px; bottom: 0; padding: 13px 18px 13px 13px; right: 0; transform: rotate(180deg); }
 .playing-card[data-suit-color="black"] .card-corner { color: #111; }
-.card-figure { align-items: center; background: repeating-conic-gradient(from 8deg at 52% 48%, #ffea13 0deg 11deg, #ffbe16 11deg 23deg, #ff8d16 23deg 31deg, #ffdb20 31deg 42deg); display: flex; inset: 7% 4.5%; justify-content: center; overflow: hidden; position: absolute; }
+.card-figure { align-items: center; background: repeating-conic-gradient(from 8deg at 52% 48%, #ffea13 0deg 11deg, #ffbe16 11deg 23deg, #ff8d16 23deg 31deg, #ffdb20 31deg 42deg); border: 4px solid #111; border-radius: 13px; display: flex; inset: 11px; justify-content: center; overflow: hidden; position: absolute; }
 .card-figure img { filter: none; height: 112%; max-width: none; mix-blend-mode: normal; object-fit: contain; position: relative; transform: none; width: 112%; z-index: 1; }
-.playing-card.is-numbered .card-figure, .playing-card.is-card-back .card-figure { inset: 0; }
-/* The numbered art already contains a printed card edge. Overscan it so the shared CSS frame is the only visible frame. */
-.playing-card.is-numbered .card-figure img, .playing-card.is-card-back .card-figure img { filter: none; height: 120%; mix-blend-mode: normal; object-fit: cover; width: 120%; }
-.playing-card.is-numbered .card-figure::after, .playing-card.is-card-back .card-figure::after { background: radial-gradient(118px 118px at 0 0, #fff5d9 0 78%, transparent 79%), radial-gradient(118px 118px at 100% 0, #fff5d9 0 78%, transparent 79%), radial-gradient(118px 118px at 0 100%, #fff5d9 0 78%, transparent 79%), radial-gradient(118px 118px at 100% 100%, #fff5d9 0 78%, transparent 79%); content: ""; display: block; inset: 0; opacity: 1; pointer-events: none; position: absolute; z-index: 2; }
+.playing-card.is-numbered .card-figure img, .playing-card.is-card-back .card-figure img { filter: none; height: 88%; mix-blend-mode: normal; object-fit: contain; width: 88%; }
+.playing-card.is-card-back .card-figure { inset: 0; border: 0; border-radius: 0; }
 .playing-card.is-card-back .card-corner { display: none; }
 
 .rule-panel { background: #fff5d9; border: 4px solid #111; box-shadow: 5px 5px 0 #111; display: grid; gap: 2px; max-width: 510px; padding: 8px 11px; text-align: center; width: 100%; }

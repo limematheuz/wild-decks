@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { GAME_MODES, RANKS, SUITS, createDeck, drawRandomCard, getModeCopy } from "../src/decks.js";
+import { GAME_MODES, RANKS, SUITS, createDeck, drawRandomCard, getCopy, getModeCopy } from "../src/decks.js";
 
 test("there are two playable game modes", () => {
   assert.deepEqual(Object.keys(GAME_MODES), ["clasico", "wild"]);
@@ -34,6 +34,12 @@ test("every rank has a visible action in both modes", () => {
       }
     }
   }
+});
+
+test("the home tagline is translated for every supported language", () => {
+  assert.equal(getCopy("en").tagline, "Two decks. No mercy.");
+  assert.equal(getCopy("es").tagline, "Dos barajas. Sin piedad.");
+  assert.equal(getCopy("pt").tagline, "Dois baralhos. Sem piedade.");
 });
 
 test("the localized decks keep the same 104-card structure", () => {

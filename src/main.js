@@ -32,7 +32,7 @@ app.innerHTML = `
           <button class="icon-button" data-action="open-info" type="button" aria-label="Information">i</button>
         </header>
         <div class="home-hero">${logoImage("en", "brand-logo")}</div>
-        <div class="home-message"><p class="eyebrow">Two decks. No mercy.</p><p data-ui="age-note">Only for the legal drinking age in your country.</p></div>
+        <div class="home-message"><p class="eyebrow" data-copy="tagline">Two decks. No mercy.</p><p data-ui="age-note">Only for the legal drinking age in your country.</p></div>
         <div class="home-actions">
           <button class="solid-button solid-button--pink" data-action="start" type="button" data-copy="start">Start the mess</button>
           <button class="solid-button solid-button--yellow" data-action="open-rules-home" type="button" data-copy="rules">Rules</button>
@@ -133,6 +133,7 @@ let locale = getStoredLocale();
 let currentModeId = "clasico";
 let deck = createDeck(currentModeId, locale);
 let splashTimer;
+let isRevealingCard = false;
 
 function getStoredLocale() {
   try { return localStorage.getItem("wild-decks-locale") || "en"; } catch { return "en"; }
@@ -228,6 +229,7 @@ function setMode(modeId) {
 }
 
 function drawCard() {
+  if (isRevealingCard) return;
   if (!deck.length) resetDeck();
   const result = drawRandomCard(deck);
   if (!result.card) return;
@@ -236,6 +238,17 @@ function drawCard() {
   ui.cardCode.textContent = `${result.card.rank}${result.card.suit}`;
   ui.ruleTitle.textContent = result.card.title;
   ui.ruleText.textContent = result.card.action;
+  if (ui.card.classList.contains("is-card-back")) {
+    isRevealingCard = true;
+    ui.card.animate([
+      { transform: "perspective(900px) rotateY(0deg)" },
+      { transform: "perspective(900px) rotateY(90deg)" },
+      { transform: "perspective(900px) rotateY(180deg)" }
+    ], { duration: 560, easing: "cubic-bezier(.2,.78,.25,1)" });
+    window.setTimeout(() => setCardVisual(result.card), 280);
+    window.setTimeout(() => { isRevealingCard = false; }, 580);
+    return;
+  }
   setCardVisual(result.card);
   ui.card.animate([{ transform: "rotate(-2deg) scale(.94)" }, { transform: "rotate(1deg) scale(1.025)" }, { transform: "rotate(0) scale(1)" }], { duration: 360, easing: "cubic-bezier(.2,.9,.2,1)" });
 }

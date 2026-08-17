@@ -24,14 +24,14 @@ export const NUMBERED_RANKS = new Set(["2", "3", "4", "5", "6", "7", "8", "9", "
 
 export function getCardBack(locale) {
   return {
-    path: NUMBERED_CARD_BACKDROPS[locale] ?? NUMBERED_CARD_BACKDROPS.en,
+    path: (LOGOS[locale] ?? LOGOS.en).path,
     alt: "Wild Decks card back"
   };
 }
 
 export function getCardArt(rank, locale) {
   if (NUMBERED_RANKS.has(rank)) {
-    return { path: NUMBERED_CARD_BACKDROPS[locale] ?? NUMBERED_CARD_BACKDROPS.en, alt: "Wild Decks card art", numbered: true };
+    return { path: (LOGOS[locale] ?? LOGOS.en).path, alt: "Wild Decks card art", numbered: true };
   }
 
   return { ...(CHARACTER_ART[rank] ?? CHARACTER_ART.A), numbered: false };
