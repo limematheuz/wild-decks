@@ -1,13 +1,17 @@
-# Wild Decks / Sueca Bebada
+# Wild Decks
 
 Juego de cartas para adultos construido con Vite y JavaScript sin dependencias de interfaz. **Wild Decks** es el nombre internacional y principal; **Sueca Bebada** es el modo clasico de bebida. La experiencia es mobile-first: una unica carta ocupa el espacio central, la regla aparece debajo y el mazo se gestiona desde un menu compacto.
 
 ## Modos incluidos
 
 - **Sueca Bebada:** la version clasica con dos barajas completas, 104 cartas y sin comodines.
-- **Wild Decks:** retos sociales, preguntas incomodas y consentimiento como regla principal.
+- **Wild Decks:** retos sociales, preguntas incomodas y consecuencias para adultos que consienten. Incluye 106 cartas y dos jokers.
 
-Cada modo genera dos barajas completas, con 104 cartas. Los personajes originales se usan en A, J, Q y K; las cartas 2-10 comparten una ilustracion de cerveza y rayos adaptada al idioma. Todas se insertan en el mismo marco de naipe hecho con CSS, con numero y palo en esquinas opuestas. Los PNG viven en `public/assets/`, que es la ubicacion correcta para recursos estaticos de Vite.
+Sueca Bebada genera dos barajas completas, con 104 cartas. Wild Decks suma dos jokers y llega a 106. Los personajes originales se usan en A, J, Q, K y Joker; las cartas 2-10 comparten una ilustracion de cerveza y rayos adaptada al idioma. Todas se insertan en el mismo marco de naipe hecho con CSS, con numero y palo en esquinas opuestas. Los PNG viven en `public/assets/`, que es la ubicacion correcta para recursos estaticos de Vite.
+
+## Aplicacion
+
+Disponible actualmente en [wild-swedish.vercel.app](https://wild-swedish.vercel.app/).
 
 ## Desarrollo
 
@@ -30,7 +34,7 @@ npm run preview
 
 ## Despliegue en Vercel
 
-1. Sube este directorio al repositorio `https://github.com/limematheuz/wild-swedish`.
+1. Sube este directorio al repositorio `https://github.com/limematheuz/wild-decks`.
 2. Importa el repositorio desde Vercel.
 3. Vercel detectara Vite automaticamente: usa `npm run build` y publica `dist`.
 
