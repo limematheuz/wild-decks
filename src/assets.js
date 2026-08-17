@@ -15,8 +15,8 @@ export const CHARACTER_ART = {
 };
 
 export const MODE_ART = {
-  clasico: asset("/assets/cards/swedish-mode.png", "The queen rules the classic deck"),
-  wild: asset("/assets/cards/wild-mode.png", "The prince brings chaos to the wild deck")
+  clasico: asset("/assets/cards/swedish-mode.webp", "The queen rules the classic deck"),
+  wild: asset("/assets/cards/wild-mode.webp", "The prince brings chaos to the wild deck")
 };
 
 export const NUMBERED_RANKS = new Set(["2", "3", "4", "5", "6", "7", "8", "9", "10"]);
