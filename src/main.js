@@ -3,6 +3,7 @@ import { CHARACTER_ART, LOGOS, MODE_ART, getCardArt, getCardBack } from "./asset
 import { GAME_MODES, RANKS, createDeck, drawRandomCard, getCopy, getModeCopy } from "./decks.js";
 
 const app = document.querySelector("#app");
+const GAME_STATE_KEY = "wild-decks-game-state";
 
 function logoImage(locale, className = "") {
   const logo = LOGOS[locale] ?? LOGOS.en;
@@ -130,9 +131,12 @@ const screens = [...document.querySelectorAll("[data-screen]")];
 const toCamelCase = (value) => value.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 const ui = Object.fromEntries([...document.querySelectorAll("[data-ui]")].map((node) => [toCamelCase(node.dataset.ui), node]));
 
+const storedGameState = getStoredGameState();
 let locale = getStoredLocale();
-let currentModeId = "clasico";
-let deck = createDeck(currentModeId, locale);
+let currentModeId = storedGameState?.modeId === "wild" ? "wild" : "clasico";
+let deck = getStoredDeck(storedGameState, locale) ?? createDeck(currentModeId, locale);
+let currentCard = getStoredCard(storedGameState, locale);
+let activeScreen = "splash";
 let splashTimer;
 let isRevealingCard = false;
 let audioContext;
@@ -142,13 +146,48 @@ function getStoredLocale() {
   try { return localStorage.getItem("wild-decks-locale") || "en"; } catch { return "en"; }
 }
 
+function getStoredGameState() {
+  try {
+    const state = JSON.parse(localStorage.getItem(GAME_STATE_KEY));
+    return state && typeof state === "object" ? state : null;
+  } catch { return null; }
+}
+
+function getStoredDeck(state, activeLocale) {
+  if (!state || state.locale !== activeLocale || !Array.isArray(state.deck)) return null;
+  return state.deck.every((card) => card && typeof card.rank === "string" && typeof card.suit === "string") ? state.deck : null;
+}
+
+function getStoredCard(state, activeLocale) {
+  if (!state || state.locale !== activeLocale || !state.card) return null;
+  const { card } = state;
+  return typeof card.rank === "string" && typeof card.suit === "string" ? card : null;
+}
+
 function saveLocale() {
   try { localStorage.setItem("wild-decks-locale", locale); } catch { /* Storage is optional. */ }
 }
 
+function saveGameState() {
+  if (activeScreen === "splash") return;
+  try {
+    localStorage.setItem(GAME_STATE_KEY, JSON.stringify({
+      screen: activeScreen,
+      locale,
+      modeId: currentModeId,
+      deck,
+      card: currentCard
+    }));
+  } catch { /* Storage is optional. */ }
+}
+
 function copy() { return getCopy(locale); }
 function modeCopy(modeId = currentModeId) { return getModeCopy(modeId, locale); }
-function showScreen(name) { screens.forEach((screen) => screen.classList.toggle("is-active", screen.dataset.screen === name)); }
+function showScreen(name) {
+  activeScreen = name;
+  screens.forEach((screen) => screen.classList.toggle("is-active", screen.dataset.screen === name));
+  saveGameState();
+}
 function setModal(node, open) { node.classList.toggle("is-open", open); }
 
 function preloadImage(source) {
@@ -234,11 +273,13 @@ function showCardBack() {
 
 function resetDeck() {
   deck = createDeck(currentModeId, locale);
+  currentCard = null;
   ui.remaining.textContent = deck.length;
   ui.cardCode.textContent = modeCopy().label;
   ui.ruleTitle.textContent = copy().ready;
   ui.ruleText.textContent = copy().initialRule;
   showCardBack();
+  saveGameState();
 }
 
 function setMode(modeId) {
@@ -254,12 +295,14 @@ async function drawCard() {
   const result = drawRandomCard(deck);
   if (!result.card) return;
   deck = result.deck;
+  currentCard = result.card;
   ui.remaining.textContent = deck.length;
   ui.cardCode.textContent = `${result.card.rank === "joker" ? "JOKER" : result.card.rank}${result.card.suit}`;
   ui.ruleTitle.textContent = result.card.title;
   ui.ruleText.textContent = result.card.action;
   const art = getCardArt(result.card.rank, locale);
   const artReady = preloadImage(art.path);
+  saveGameState();
   if (ui.card.classList.contains("is-card-back")) {
     playSound("flip");
     isRevealingCard = true;
@@ -380,5 +423,22 @@ document.addEventListener("keydown", (event) => {
 
 warmCardImages();
 renderCopy();
-resetDeck();
-splashTimer = window.setTimeout(finishSplash, 1800);
+if (storedGameState?.screen === "game") {
+  ui.remaining.textContent = deck.length;
+  if (currentCard) {
+    ui.cardCode.textContent = `${currentCard.rank === "joker" ? "JOKER" : currentCard.rank}${currentCard.suit}`;
+    ui.ruleTitle.textContent = currentCard.title;
+    ui.ruleText.textContent = currentCard.action;
+    setCardVisual(currentCard);
+  } else {
+    showCardBack();
+  }
+  showScreen("game");
+} else if (storedGameState?.screen === "decks") {
+  showScreen("decks");
+} else if (storedGameState?.screen === "home") {
+  showScreen("home");
+} else {
+  resetDeck();
+  splashTimer = window.setTimeout(finishSplash, 1800);
+}

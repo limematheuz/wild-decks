@@ -6,12 +6,6 @@ export const LOGOS = {
   pt: asset("/assets/logos/baralhos-selvagens.png", "Baralhos Selvagens")
 };
 
-export const NUMBERED_CARD_BACKDROPS = {
-  en: "/assets/cards/numbered-base-en.png",
-  es: "/assets/cards/numbered-base-es.png",
-  pt: "/assets/cards/numbered-base-pt.png"
-};
-
 export const CHARACTER_ART = {
   A: asset("/assets/cards/ace-herald-cutout.png", "The royal herald"),
   J: asset("/assets/cards/prince-cutout.png", "The prince"),

@@ -82,7 +82,7 @@ button:focus-visible, select:focus-visible { outline: 4px solid #fff; outline-of
 .game-stage { align-items: center; display: grid; gap: 8px; grid-template-rows: minmax(0, 1fr) auto auto; justify-items: center; min-height: 0; min-width: 0; }
 
 /* A single reusable poker-card frame: the visual asset is always placed inside it. */
-.playing-card { align-self: center; aspect-ratio: 2 / 3; background: #fff5d9; border: 5px solid #111; border-radius: 18px; box-shadow: 8px 8px 0 #111; height: min(100%, 48svh); justify-self: center; max-width: calc(100% - 20px); min-height: 0; overflow: hidden; position: relative; width: auto; }
+.playing-card { align-self: center; aspect-ratio: 2 / 3; background: #fff5d9; border: 5px solid #111; border-radius: 18px; box-shadow: 8px 8px 0 #111; height: min(100%, 53svh); justify-self: center; max-width: calc(100% - 20px); min-height: 0; overflow: hidden; position: relative; width: auto; }
 .card-corner { background: #fff5d9; color: #df202c; display: grid; font-family: "Archivo Black", Impact, sans-serif; font-size: clamp(1.65rem, 10vw, 2.6rem); justify-items: center; line-height: .78; padding: 4px 6px; position: absolute; text-align: center; text-shadow: 1px 1px 0 currentColor; z-index: 4; }
 .card-corner span:last-child { font-family: "Archivo Black", "Arial Black", sans-serif; font-size: .82em; line-height: .8; }
 .card-corner--top { border-bottom-right-radius: 28px; left: 0; padding: 13px 18px 13px 13px; top: 0; }
