@@ -150,6 +150,20 @@ function copy() { return getCopy(locale); }
 function modeCopy(modeId = currentModeId) { return getModeCopy(modeId, locale); }
 function showScreen(name) { screens.forEach((screen) => screen.classList.toggle("is-active", screen.dataset.screen === name)); }
 function setModal(node, open) { node.classList.toggle("is-open", open); }
+
+function preloadImage(source) {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.onload = resolve;
+    image.onerror = resolve;
+    image.src = source;
+    if (image.complete) resolve();
+  });
+}
+
+function warmCardImages() {
+  [...Object.values(CHARACTER_ART), ...Object.values(LOGOS)].forEach(({ path }) => { void preloadImage(path); });
+}
 function setDrawer(open) {
   if (open) {
     drawerReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -195,8 +209,7 @@ function renderCopy() {
   renderModeGrid();
 }
 
-function setCardVisual(card) {
-  const art = getCardArt(card.rank, locale);
+function setCardVisual(card, art = getCardArt(card.rank, locale)) {
   ui.card.classList.remove("is-card-back");
   ui.card.classList.toggle("is-numbered", art.numbered);
   ui.card.classList.toggle("is-joker", card.rank === "joker");
@@ -235,7 +248,7 @@ function setMode(modeId) {
   showScreen("game");
 }
 
-function drawCard() {
+async function drawCard() {
   if (isRevealingCard) return;
   if (!deck.length) resetDeck();
   const result = drawRandomCard(deck);
@@ -245,6 +258,8 @@ function drawCard() {
   ui.cardCode.textContent = `${result.card.rank === "joker" ? "JOKER" : result.card.rank}${result.card.suit}`;
   ui.ruleTitle.textContent = result.card.title;
   ui.ruleText.textContent = result.card.action;
+  const art = getCardArt(result.card.rank, locale);
+  const artReady = preloadImage(art.path);
   if (ui.card.classList.contains("is-card-back")) {
     playSound("flip");
     isRevealingCard = true;
@@ -253,13 +268,15 @@ function drawCard() {
       { transform: "perspective(900px) rotateY(90deg)" },
       { transform: "perspective(900px) rotateY(180deg)" }
     ], { duration: 560, easing: "cubic-bezier(.2,.78,.25,1)" });
-    window.setTimeout(() => setCardVisual(result.card), 280);
+    window.setTimeout(() => { void artReady.then(() => setCardVisual(result.card, art)); }, 280);
     window.setTimeout(() => { isRevealingCard = false; }, 580);
     return;
   }
   playSound("draw");
-  setCardVisual(result.card);
-  ui.card.animate([{ transform: "rotate(-2deg) scale(.94)" }, { transform: "rotate(1deg) scale(1.025)" }, { transform: "rotate(0) scale(1)" }], { duration: 360, easing: "cubic-bezier(.2,.9,.2,1)" });
+  void artReady.then(() => {
+    setCardVisual(result.card, art);
+    ui.card.animate([{ transform: "rotate(-2deg) scale(.94)" }, { transform: "rotate(1deg) scale(1.025)" }, { transform: "rotate(0) scale(1)" }], { duration: 360, easing: "cubic-bezier(.2,.9,.2,1)" });
+  });
 }
 
 function openRules() {
@@ -361,6 +378,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+warmCardImages();
 renderCopy();
 resetDeck();
 splashTimer = window.setTimeout(finishSplash, 1800);
